@@ -1,0 +1,28 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Lexio.App.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="using:Lexio.App.Views"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Lexio.App.Views.MainWindow"
+        x:Name="Root"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Lexio"
+        Width="1280"
+        Height="720"
+        CanResize="False"
+        Background="#0f1218">
+    
+    <Window.DataTemplates>
+        <DataTemplate DataType="vm:HomeViewModel">
+            <views:HomeView></views:HomeView>
+        </DataTemplate>
+        <DataTemplate DataType="vm:DictionaryViewModel">
+            <views:DictionaryView></views:DictionaryView>
+        </DataTemplate>
+    </Window.DataTemplates>
+    
+    <ContentControl Content="{Binding CurrentPage}" />
+</Window>

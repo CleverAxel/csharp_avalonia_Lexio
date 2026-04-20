@@ -1,0 +1,119 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Lexio.App.ViewModels"
+             x:DataType="vm:HomeViewModel"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Lexio.App.Views.HomeView">
+    <UserControl.Styles>
+        <Style Selector="Button.NavButton">
+            <Setter Property="MinWidth" Value="220"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+            <Setter Property="FontSize" Value="24"></Setter>
+            <Setter Property="FontWeight" Value="ExtraBold"></Setter>
+            <Setter Property="Background" Value="#414c61" />
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="CornerRadius" Value="99"></Setter>
+            <Setter Property="Cursor" Value="hand"></Setter>
+        </Style>
+        <Style Selector="Button.NavButton /template/ ContentPresenter">
+            <Setter Property="Background" Value="#414c61" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="BorderBrush" Value="White" />
+            <Setter Property="Cursor" Value="hand"></Setter>
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="Background" Duration="0:0:0.1" />
+                </Transitions>
+            </Setter>
+        </Style>
+
+        <Style Selector="Button.NavButton:pointerover">
+            <Setter Property="BorderBrush" Value="White" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+        <Style Selector="Button.NavButton:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#5e687d" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="White" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+
+
+        <Style Selector="Button.NavButton TextBlock#MenuLabel">
+            <Setter Property="RenderTransform" Value="translate(0, 0)" />
+            <Setter Property="TextAlignment" Value="Center"></Setter>
+            <Setter Property="Transitions">
+                <Transitions>
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.1" />
+                </Transitions>
+            </Setter>
+        </Style>
+    </UserControl.Styles>
+
+
+    <Grid RowDefinitions="*">
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" RowDefinitions="Auto, Auto">
+            <TextBlock
+                Text="Lexio."
+                Foreground="White"
+                HorizontalAlignment="Center"
+                FontSize="48"
+                FontWeight="900"
+                Margin="0 0 0 20">
+            </TextBlock>
+            <StackPanel Grid.Row="1"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Spacing="10">
+                <Button
+                    Classes="NavButton"
+                    Command="{Binding $parent[Window].((vm:MainWindowViewModel)DataContext).GoToDictionaryCommand}">
+                    <Button.ContentTemplate>
+                        <DataTemplate>
+                            <Grid RowDefinitions="*, Auto">
+                                <TextBlock Grid.Row="1"
+                                           x:Name="MenuLabel"
+                                           Text="Dictionnaire"
+                                           Padding="10 2"
+                                           VerticalAlignment="Center" />
+
+                                <PathIcon Grid.Row="0"
+                                          x:Name="Icon"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Height="32" Width="32"
+                                          Foreground="White"
+                                          Data="{StaticResource BookLetterRegular}" />
+                            </Grid>
+                        </DataTemplate>
+                    </Button.ContentTemplate>
+                </Button>
+                <Button
+                    Classes="NavButton">
+                    <Button.ContentTemplate>
+                        <DataTemplate>
+                            <Grid RowDefinitions="*, Auto">
+                                <TextBlock Grid.Row="1"
+                                           x:Name="MenuLabel"
+                                           Text="Mes séries"
+                                           Padding="10 2"
+                                           VerticalAlignment="Center" />
+
+                                <PathIcon Grid.Row="0"
+                                          x:Name="Icon"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Height="32" Width="32"
+                                          Foreground="White"
+                                          Data="{StaticResource VoteRegular}" />
+                            </Grid>
+                        </DataTemplate>
+                    </Button.ContentTemplate>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>
