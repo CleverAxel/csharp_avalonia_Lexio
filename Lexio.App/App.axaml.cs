@@ -5,6 +5,7 @@ using Avalonia.Data.Core.Plugins;
 using System.Linq;
 using Avalonia.Markup.Xaml;
 using Lexio.App.DI;
+using Lexio.App.Dialog;
 using Lexio.App.ViewModels;
 using Lexio.App.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -42,12 +43,16 @@ public partial class App : Application {
             desktop.MainWindow = new MainWindow {
                 DataContext = vm
             };
+
+            ServiceProvider.GetRequiredService<DialogService>().MainWindow = desktop.MainWindow;
         }
-        else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform) {
-            singleViewPlatform.MainView = new MainWindow {
-                DataContext = vm
-            };
-        }
+        // else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform) {
+        //     singleViewPlatform.MainView = new MainWindow {
+        //         DataContext = vm
+        //     };
+        //     
+        //     ServiceProvider.GetRequiredService<DialogService>().MainWindow = singleViewPlatform.MainView;
+        // }
 
         base.OnFrameworkInitializationCompleted();
     }

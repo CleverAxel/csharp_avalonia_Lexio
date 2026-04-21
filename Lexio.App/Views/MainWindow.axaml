@@ -13,7 +13,8 @@
         Title="Lexio"
         Width="1280"
         Height="720"
-        CanResize="False">
+        CanResize="False"
+        WindowStartupLocation="CenterScreen">
     
 
     

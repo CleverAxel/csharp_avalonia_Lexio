@@ -1,3 +1,4 @@
+using Lexio.App.Dialog;
 using Lexio.App.Routing;
 using Lexio.App.ViewModels;
 using Lexio.App.ViewModels.Dictionary;
@@ -10,6 +11,7 @@ public static class ServiceCollectionExtensions
     public static void AddCommonServices(this IServiceCollection collection) {
         AddViewModels(collection);
         collection.AddSingleton<RoutingService>();
+        collection.AddSingleton<DialogService>();
     }
 
     private static void AddViewModels(IServiceCollection collection) {

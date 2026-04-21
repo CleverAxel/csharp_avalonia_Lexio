@@ -1,14 +1,14 @@
 using Avalonia.Controls;
 using CommunityToolkit.Mvvm.Input;
 
-namespace Lexio.App.ViewModels.Dictionary.Dialog;
+namespace Lexio.App.ViewModels;
 
-public partial class LanguageDeleteDialogViewModel : ViewModelBase {
+public partial class ConfirmDialogViewModel : ViewModelBase {
     private readonly Window _dialog;
 
     public string Message { get; }
 
-    public LanguageDeleteDialogViewModel(Window dialog, string message)
+    public ConfirmDialogViewModel(Window dialog, string message)
     {
         _dialog = dialog;
         Message = message;

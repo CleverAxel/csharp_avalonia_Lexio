@@ -1,0 +1,47 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200"
+        xmlns:vm="clr-namespace:Lexio.App.ViewModels"
+        x:DataType="vm:ConfirmDialogViewModel"
+        Width="400"
+        Height="200"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False"
+        ShowInTaskbar="False"
+        x:Class="Lexio.App.Views.ConfirmDialogView"
+        Title="Confirmez bordel de merde">
+    
+    <Window.KeyBindings>
+        <KeyBinding Gesture="Enter" Command="{Binding ConfirmCommand}" />
+        <KeyBinding Gesture="Escape" Command="{Binding CancelCommand}" />
+    </Window.KeyBindings>
+    
+    <Window.Styles>
+        <Style Selector="Button.Cancel /template/ ContentPresenter">
+            <Setter Property="Background" Value="#ef4444" />
+        </Style>
+        <Style Selector="Button.Cancel:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#f87171" />
+        </Style>
+
+        <Style Selector="Button.Confirm /template/ ContentPresenter">
+            <Setter Property="Background" Value="#22c55e" />
+        </Style>
+        <Style Selector="Button.Confirm:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#4ade80" />
+        </Style>
+    </Window.Styles>
+
+    <Grid RowDefinitions="*,Auto" Margin="20">
+        <TextBlock Grid.Row="0" Text="{Binding Message}"
+                   TextWrapping="Wrap" VerticalAlignment="Center" Foreground="White" FontWeight="ExtraBold" />
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8">
+            <Button Classes="Base Cancel" Content="NON" Command="{Binding CancelCommand}" />
+            <Button Classes="Base Confirm" Content="OUI" Command="{Binding ConfirmCommand}" />
+        </StackPanel>
+    </Grid>
+</Window>
