@@ -1,0 +1,25 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False"
+        Width="400"
+        Height="200"
+        ShowInTaskbar="False"
+        xmlns:dictionary="clr-namespace:Lexio.App.ViewModels.Dictionary.Dialog"
+        x:DataType="dictionary:LanguageDeleteDialogViewModel"
+        x:Class="Lexio.App.Views.Dictionary.Dialog.LanguageDeleteDialogView"
+        Title="LanguageDeleteDialogView">
+    <Grid RowDefinitions="*,Auto" Margin="20">
+        <TextBlock Grid.Row="0" Text="{Binding Message}"
+                   TextWrapping="Wrap" VerticalAlignment="Center" />
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8">
+            <Button Content="Cancel" Command="{Binding CancelCommand}" />
+            <Button Content="OK" Command="{Binding ConfirmCommand}" />
+        </StackPanel>
+    </Grid>
+</Window>

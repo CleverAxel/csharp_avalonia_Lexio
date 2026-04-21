@@ -13,8 +13,8 @@ namespace Lexio.App;
 
 public partial class App : Application {
 
-    public static ServiceProvider ServiceProvider { get; private set; }
-    
+    public static ServiceProvider ServiceProvider { get; private set; } = null!;
+
     public override void Initialize() {
         AvaloniaXamlLoader.Load(this);
     }

@@ -1,5 +1,6 @@
 using Lexio.App.Routing;
 using Lexio.App.ViewModels;
+using Lexio.App.ViewModels.Dictionary;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexio.App.DI;
@@ -7,10 +8,14 @@ namespace Lexio.App.DI;
 public static class ServiceCollectionExtensions
 {
     public static void AddCommonServices(this IServiceCollection collection) {
-        collection.AddTransient<TestInjection>();
+        AddViewModels(collection);
+        collection.AddSingleton<RoutingService>();
+    }
+
+    private static void AddViewModels(IServiceCollection collection) {
         collection.AddTransient<MainWindowViewModel>();
         collection.AddTransient<HomeViewModel>();
-        
-        collection.AddSingleton<RoutingService>();
+        collection.AddTransient<DictionaryViewModel>();
+        collection.AddTransient<LanguageViewModel>();
     }
 }

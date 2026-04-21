@@ -3,24 +3,29 @@
         xmlns:vm="using:Lexio.App.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:views="using:Lexio.App.Views"
+        xmlns:dictionary="clr-namespace:Lexio.App.ViewModels.Dictionary"
+        xmlns:views="clr-namespace:Lexio.App.Views"
+        xmlns:dictionary1="clr-namespace:Lexio.App.Views.Dictionary"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Lexio.App.Views.MainWindow"
-        x:Name="Root"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="Lexio"
         Width="1280"
         Height="720"
-        CanResize="False"
-        Background="#0f1218">
+        CanResize="False">
+    
+
     
     <Window.DataTemplates>
         <DataTemplate DataType="vm:HomeViewModel">
             <views:HomeView></views:HomeView>
         </DataTemplate>
-        <DataTemplate DataType="vm:DictionaryViewModel">
-            <views:DictionaryView></views:DictionaryView>
+        <DataTemplate DataType="dictionary:DictionaryViewModel">
+            <dictionary1:DictionaryView></dictionary1:DictionaryView>
+        </DataTemplate>
+        <DataTemplate DataType="dictionary:LanguageViewModel">
+            <dictionary1:LanguageView></dictionary1:LanguageView>
         </DataTemplate>
     </Window.DataTemplates>
     

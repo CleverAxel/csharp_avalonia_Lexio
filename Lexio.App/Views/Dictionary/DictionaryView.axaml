@@ -1,0 +1,22 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:dictionary="clr-namespace:Lexio.App.ViewModels.Dictionary"
+             x:Class="Lexio.App.Views.Dictionary.DictionaryView"
+             x:DataType="dictionary:DictionaryViewModel">
+    <Grid>
+        <Button Classes="Base" CornerRadius="99" Padding="20 10">
+            <StackPanel>
+                <StackPanel Spacing="5" HorizontalAlignment="Center" Orientation="Horizontal">
+                    <TextBlock>🇫🇷</TextBlock>
+                    <TextBlock>-</TextBlock>
+                    <TextBlock>🇬🇧</TextBlock>
+                </StackPanel>
+                <TextBlock>LANGUAGES</TextBlock>
+            </StackPanel>
+        </Button>
+    </Grid>
+
+</UserControl>

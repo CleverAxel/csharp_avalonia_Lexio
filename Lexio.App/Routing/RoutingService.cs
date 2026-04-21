@@ -1,7 +1,8 @@
 using System;
+using CommunityToolkit.Mvvm.Input;
 
 namespace Lexio.App.Routing;
 
 public class RoutingService {
-    public Action? GoToDictionary { get; set; }
+    public IRelayCommand GoDictionaryCommand { get; set; } = null!;
 }

@@ -70,7 +70,8 @@
                         Spacing="10">
                 <Button
                     Classes="NavButton"
-                    Command="{Binding $parent[Window].((vm:MainWindowViewModel)DataContext).GoToDictionaryCommand}">
+                    Command="{Binding RoutingService.GoDictionaryCommand}">
+                    <!-- Command="{Binding $parent[Window].((vm:MainWindowViewModel)DataContext).GoToDictionaryCommand}"> -->
                     <Button.ContentTemplate>
                         <DataTemplate>
                             <Grid RowDefinitions="*, Auto">
