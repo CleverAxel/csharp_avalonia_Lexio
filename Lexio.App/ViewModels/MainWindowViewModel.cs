@@ -14,9 +14,13 @@ public partial class MainWindowViewModel : ViewModelBase {
         RoutingService routingService
     ) {
         routingService.GoDictionaryCommand = GoToDictionaryCommand;
-        _currentPage = App.ServiceProvider.GetRequiredService<LanguageViewModel>();
+        routingService.GoLanguageManagementCommand = GoToLanguageManagementCommand;
+        _currentPage = App.ServiceProvider.GetRequiredService<HomeViewModel>();
     }
-    
+
     [RelayCommand]
-    private void GoToDictionary() => CurrentPage = new DictionaryViewModel();
+    private void GoToDictionary() => CurrentPage = App.ServiceProvider.GetRequiredService<DictionaryViewModel>();
+
+    [RelayCommand]
+    private void GoToLanguageManagement() => CurrentPage = App.ServiceProvider.GetRequiredService<LanguageViewModel>();
 }

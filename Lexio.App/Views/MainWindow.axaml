@@ -16,8 +16,6 @@
         CanResize="False"
         WindowStartupLocation="CenterScreen">
     
-
-    
     <Window.DataTemplates>
         <DataTemplate DataType="vm:HomeViewModel">
             <views:HomeView></views:HomeView>

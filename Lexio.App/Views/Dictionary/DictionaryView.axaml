@@ -7,7 +7,11 @@
              x:Class="Lexio.App.Views.Dictionary.DictionaryView"
              x:DataType="dictionary:DictionaryViewModel">
     <Grid>
-        <Button Classes="Base" CornerRadius="99" Padding="20 10">
+        <Button
+            Command="{Binding RoutingService.GoLanguageManagementCommand}"
+            Classes="Base" 
+            CornerRadius="99" 
+            Padding="20 10">
             <StackPanel>
                 <StackPanel Spacing="5" HorizontalAlignment="Center" Orientation="Horizontal">
                     <TextBlock>🇫🇷</TextBlock>
