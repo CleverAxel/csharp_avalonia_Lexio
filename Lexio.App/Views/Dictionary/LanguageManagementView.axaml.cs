@@ -3,8 +3,8 @@ using Avalonia.Controls;
 
 namespace Lexio.App.Views.Dictionary;
 
-public partial class LanguageView : UserControl {
-    public LanguageView() {
+public partial class LanguageManagementView : UserControl {
+    public LanguageManagementView() {
         InitializeComponent();
     }
 }

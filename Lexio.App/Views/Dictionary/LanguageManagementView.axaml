@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:dictionary="clr-namespace:Lexio.App.ViewModels.Dictionary"
-             x:DataType="dictionary:LanguageViewModel"
-             x:Class="Lexio.App.Views.Dictionary.LanguageView">
+             x:DataType="dictionary:LanguageManagementViewModel"
+             x:Class="Lexio.App.Views.Dictionary.LanguageManagementView">
     <UserControl.Styles>
         <Style Selector="Button.Edit /template/ ContentPresenter">
             <Setter Property="Background" Value="#3b82f6" />
@@ -56,7 +56,7 @@
                                 </Button>
                                 <Button 
                                     Classes="Base Delete"
-                                    Command="{Binding $parent[ListBox].((dictionary:LanguageViewModel)DataContext).DeleteCommand}"
+                                    Command="{Binding $parent[ListBox].((dictionary:LanguageManagementViewModel)DataContext).DeleteCommand}"
                                     CommandParameter="{Binding .}">
                                     <PathIcon 
                                         Width="20" 

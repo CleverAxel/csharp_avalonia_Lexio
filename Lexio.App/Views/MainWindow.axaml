@@ -23,8 +23,8 @@
         <DataTemplate DataType="dictionary:DictionaryViewModel">
             <dictionary1:DictionaryView></dictionary1:DictionaryView>
         </DataTemplate>
-        <DataTemplate DataType="dictionary:LanguageViewModel">
-            <dictionary1:LanguageView></dictionary1:LanguageView>
+        <DataTemplate DataType="dictionary:LanguageManagementViewModel">
+            <dictionary1:LanguageManagementView></dictionary1:LanguageManagementView>
         </DataTemplate>
     </Window.DataTemplates>
     

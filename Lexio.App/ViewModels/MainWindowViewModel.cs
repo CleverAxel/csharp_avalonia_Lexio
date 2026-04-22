@@ -22,5 +22,5 @@ public partial class MainWindowViewModel : ViewModelBase {
     private void GoToDictionary() => CurrentPage = App.ServiceProvider.GetRequiredService<DictionaryViewModel>();
 
     [RelayCommand]
-    private void GoToLanguageManagement() => CurrentPage = App.ServiceProvider.GetRequiredService<LanguageViewModel>();
+    private void GoToLanguageManagement() => CurrentPage = App.ServiceProvider.GetRequiredService<LanguageManagementViewModel>();
 }

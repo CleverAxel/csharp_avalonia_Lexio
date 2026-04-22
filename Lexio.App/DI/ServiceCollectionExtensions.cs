@@ -20,6 +20,6 @@ public static class ServiceCollectionExtensions
         collection.AddTransient<HomeViewModel>();
         
         collection.AddTransient<DictionaryViewModel>();
-        collection.AddTransient<LanguageViewModel>();
+        collection.AddTransient<LanguageManagementViewModel>();
     }
 }
