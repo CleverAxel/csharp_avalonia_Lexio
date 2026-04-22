@@ -30,6 +30,7 @@
             <Setter Property="Background" Value="{StaticResource ButtonColor}"></Setter>
             <Setter Property="Foreground" Value="White"></Setter>
             <Setter Property="FontSize" Value="20"></Setter>
+            <Setter Property="Padding" Value="10"></Setter>
         </Style>
     </UserControl.Styles>
     <Grid ColumnDefinitions="450, *">
@@ -44,8 +45,8 @@
                 FontWeight="ExtraBold">
                 + Ajouter une autre langue
             </TextBlock>
-            
-            <AutoCompleteBox ItemsSource="{Binding LanguageModels}"
+
+            <AutoCompleteBox Name="AutoCompleteBoxLanguage" ItemsSource="{Binding AvailableLanguageModels}"
                              SelectedItem="{Binding SelectedLanguage}"
                              FilterMode="Contains"
                              MinimumPrefixLength="0">
@@ -57,8 +58,11 @@
                         </StackPanel>
                     </DataTemplate>
                 </AutoCompleteBox.ItemTemplate>
+                <AutoCompleteBox.KeyBindings>
+                    <KeyBinding Gesture="Enter" Command="{Binding AddNewLanguageCommand}"></KeyBinding>
+                </AutoCompleteBox.KeyBindings>
             </AutoCompleteBox>
-            
+
             <!-- Submit Button -->
             <Button x:Name="SubmitButton"
                     Classes="Base Submit"
@@ -76,9 +80,27 @@
                 <TextBlock HorizontalAlignment="Center">Ajouter</TextBlock>
             </Button>
 
+            <Border
+                IsVisible="{Binding ShowLanguageAlreadyExist}"
+                Background="White"
+                Padding="10"
+                CornerRadius="10">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+                    <PathIcon Data="{StaticResource ErrorCircleRegular}" Width="20" Height="20" Foreground="{StaticResource DangerColor}"></PathIcon>
+                    <TextBlock
+
+                        Foreground="{StaticResource DangerColor}"
+                        FontWeight="ExtraBold"
+                        FontSize="18">
+                        Cette langue existe déjà dans la liste.
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+
         </StackPanel>
         <ScrollViewer Grid.Column="1" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto">
-            <ListBox Name="ListLanguages" x:Name="ListLanguages" ItemsSource="{Binding LanguageModels}"
+            <ListBox Name="ListLanguages" x:Name="ListLanguages" Padding="0 10"
+                     ItemsSource="{Binding AddedLanguageModels}"
                      Background="Transparent">
                 <ListBox.Styles>
                     <Style Selector="ListBoxItem">
@@ -100,18 +122,18 @@
                     </Style>
                     <Style Selector="ListBoxItem.blink">
                         <Style.Animations>
-                            <Animation Duration="0:0:0.5" IterationCount="3" FillMode="Forward">
+                            <Animation Duration="0:0:0.75" IterationCount="3" FillMode="Forward">
                                 <KeyFrame Cue="0%">
                                     <Setter Property="BorderBrush" Value="{StaticResource ButtonHoverColor}" />
                                 </KeyFrame>
                                 <KeyFrame Cue="25%">
-                                    <Setter Property="BorderBrush" Value="{StaticResource SuccessHoverColor}" />
+                                    <Setter Property="BorderBrush" Value="{StaticResource SuccessColor}" />
                                 </KeyFrame>
                                 <KeyFrame Cue="50%">
                                     <Setter Property="BorderBrush" Value="White" />
                                 </KeyFrame>
                                 <KeyFrame Cue="75%">
-                                    <Setter Property="BorderBrush" Value="{StaticResource SuccessHoverColor}" />
+                                    <Setter Property="BorderBrush" Value="{StaticResource SuccessColor}" />
                                 </KeyFrame>
                                 <KeyFrame Cue="100%">
                                     <Setter Property="BorderBrush" Value="{StaticResource ButtonHoverColor}" />
@@ -126,19 +148,20 @@
                     <DataTemplate>
                         <Grid ColumnDefinitions="Auto, *">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="8">
+                                <TextBlock Text="{Binding Flag}" />
                                 <TextBlock Text="{Binding Name}" />
                                 <TextBlock Opacity="0.5" Text="{Binding Code}" />
                             </StackPanel>
                             <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="5"
                                         HorizontalAlignment="Right">
-                                <Button Classes="Base Edit">
-                                    <PathIcon
-                                        Width="20"
-                                        Height="20"
-                                        Foreground="White"
-                                        Data="{StaticResource EditRegular}">
-                                    </PathIcon>
-                                </Button>
+                                <!-- <Button Classes="Base Edit"> -->
+                                <!--     <PathIcon -->
+                                <!--         Width="20" -->
+                                <!--         Height="20" -->
+                                <!--         Foreground="White" -->
+                                <!--         Data="{StaticResource EditRegular}"> -->
+                                <!--     </PathIcon> -->
+                                <!-- </Button> -->
                                 <Button
                                     Classes="Base Delete"
                                     Command="{Binding $parent[ListBox].((dictionary:LanguageManagementViewModel)DataContext).DeleteCommand}"

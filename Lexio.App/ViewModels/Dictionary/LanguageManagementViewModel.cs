@@ -11,15 +11,27 @@ using Lexio.App.Helpers;
 namespace Lexio.App.ViewModels.Dictionary;
 
 public partial class LanguageManagementViewModel : ViewModelBase {
-    private ObservableCollection<LanguageViewModel> _languageModels = null!;
+    public Action? ClearAutoCompleteTextInput;
     
     [ObservableProperty]
-    private LanguageViewModel? _selectedLanguage;
+    private bool _showLanguageAlreadyExist = false;
+    
+    private ObservableCollection<LanguageViewModel> _availableLanguageModels = null!;
 
-    public ObservableCollection<LanguageViewModel> LanguageModels {
-        get => _languageModels;
-        set => SetProperty(ref _languageModels, value);
+    public ObservableCollection<LanguageViewModel> AvailableLanguageModels {
+        get => _availableLanguageModels;
+        set => SetProperty(ref _availableLanguageModels, value);
     }
+
+    private ObservableCollection<LanguageViewModel> _addedLanguageModels = new ObservableCollection<LanguageViewModel>();
+
+    public ObservableCollection<LanguageViewModel> AddedLanguageModels {
+        get => _addedLanguageModels;
+        set => SetProperty(ref _addedLanguageModels, value);
+    }
+
+    [ObservableProperty]
+    private LanguageViewModel? _selectedLanguage;
 
     [ObservableProperty]
     private string _newLanguageName;
@@ -39,23 +51,41 @@ public partial class LanguageManagementViewModel : ViewModelBase {
         string message = $"Supprimer le language : {languageViewModel.Name} ?\nCette action est irréversible.";
         bool shouldDelete = await _dialogService.ShowConfirmAsync(message, "Confirmer la suppression du language");
         if (shouldDelete)
-            LanguageModels.Remove(languageViewModel);
+            AddedLanguageModels.Remove(languageViewModel);
     }
 
     [RelayCommand]
     private async Task AddNewLanguage() {
-        if(SelectedLanguage is null)
+        if (SelectedLanguage is null)
             return;
 
-        var lang = _languageModels.FirstOrDefault((t) => t.Id == SelectedLanguage.Id);
-        if(lang is null)
+        var lang = AddedLanguageModels.FirstOrDefault((t) => t.Id == SelectedLanguage.Id);
+        if (lang is not null) {
+            WeakReferenceMessenger.Default.Send(lang);
+            ShowLanguageAlreadyExist = true;
+            SelectedLanguage = null;
+            ClearAutoCompleteTextInput?.Invoke();
+            
+            // it's blocking the thread, what the fuck
+            Task.Delay(7500).ContinueWith(_ => ShowLanguageAlreadyExist = false);
             return;
+        }
+
+        var clone = SelectedLanguage.Clone();
         
-        WeakReferenceMessenger.Default.Send(lang);
+        // fucking dirty as fuck for now
+        AddedLanguageModels.Add(clone);
+        var sorted = AddedLanguageModels.OrderBy(l => l.Name).ToList();
+        AddedLanguageModels.Clear();
+        foreach (var item in sorted) {
+            AddedLanguageModels.Add(item);
+        }
+        WeakReferenceMessenger.Default.Send(clone);
+        ClearAutoCompleteTextInput?.Invoke();
     }
 
     private void LoadDummyLanguages() {
-        LanguageModels = new ObservableCollection<LanguageViewModel> {
+        AvailableLanguageModels = new ObservableCollection<LanguageViewModel> {
             new() { Id = 1, Name = "Afrikaans", Code = "af", Flag = "🇿🇦" },
             new() { Id = 2, Name = "Albanais", Code = "sq", Flag = "🇦🇱" },
             new() { Id = 3, Name = "Allemand", Code = "de", Flag = "🇩🇪" },

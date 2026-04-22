@@ -11,6 +11,8 @@ namespace Lexio.App.Views.Dictionary;
 
 public partial class LanguageManagementView : UserControl {
     private ListBox? _listLanguages;
+    private AutoCompleteBox? _autoCompleteBox;
+    private LanguageManagementViewModel? _vm;
 
     public LanguageManagementView() {
         WeakReferenceMessenger.Default.Register<LanguageViewModel>(this,
@@ -38,6 +40,23 @@ public partial class LanguageManagementView : UserControl {
 
 
         InitializeComponent();
+        _vm = DataContext as LanguageManagementViewModel;
         _listLanguages = this.FindControl<ListBox>("ListLanguages");
+        _autoCompleteBox = this.FindControl<AutoCompleteBox>("AutoCompleteBoxLanguage");
+
+    }
+    
+    protected override void OnDataContextChanged(EventArgs e)
+    {
+        base.OnDataContextChanged(e);
+        _vm = DataContext as LanguageManagementViewModel;
+        if (_vm != null)
+            _vm.ClearAutoCompleteTextInput = ClearAutoCompleteTxtInput;
+    }
+
+    private void ClearAutoCompleteTxtInput() {
+        Dispatcher.UIThread.Post(() => {
+            _autoCompleteBox?.Text = null;
+        });
     }
 }

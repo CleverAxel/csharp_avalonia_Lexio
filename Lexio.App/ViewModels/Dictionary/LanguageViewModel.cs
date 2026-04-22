@@ -17,4 +17,13 @@ public partial class LanguageViewModel : ViewModelBase {
         private string _code = String.Empty;
         
         public override string ToString() => Flag + " " + Name;
+
+        public LanguageViewModel Clone() {
+            return new LanguageViewModel() {
+                Id = Id,
+                Flag = Flag,
+                Name = Name,
+                Code = Code
+            };
+        }
 }

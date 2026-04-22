@@ -15,7 +15,7 @@ public partial class MainWindowViewModel : ViewModelBase {
     ) {
         routingService.GoDictionaryCommand = GoToDictionaryCommand;
         routingService.GoLanguageManagementCommand = GoToLanguageManagementCommand;
-        _currentPage = App.ServiceProvider.GetRequiredService<LanguageManagementViewModel>();
+        _currentPage = App.ServiceProvider.GetRequiredService<HomeViewModel>();
     }
 
     [RelayCommand]
