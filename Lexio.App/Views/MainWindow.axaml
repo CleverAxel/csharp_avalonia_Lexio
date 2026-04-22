@@ -29,66 +29,53 @@
     </Window.DataTemplates>
 
     <Grid RowDefinitions="Auto, *">
-        <StackPanel Orientation="Horizontal" Spacing="5">
-            <ListBox Name="ListLanguages" x:Name="ListLanguages" Padding="0 10"
-                     ItemsSource="{Binding Breadcrumbs}"
-                     Background="Transparent">
-                <ListBox.Styles>
-                    <Style Selector="ListBoxItem">
-                        <Setter Property="BorderThickness" Value="2"></Setter>
-                        <Setter Property="BorderBrush" Value="{StaticResource ButtonHoverColor}"></Setter>
-                        <Setter Property="Margin" Value="0 0 0 5"></Setter>
-                        <Setter Property="FontSize" Value="18"></Setter>
-                        <Setter Property="CornerRadius" Value="10"></Setter>
-                        <Setter Property="Background" Value="#5e687d" />
-                    </Style>
-                    <Style Selector="ListBoxItem.border">
-                        <Setter Property="BorderBrush" Value="{StaticResource ButtonHoverColor}"></Setter>
-                    </Style>
-                    <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
-                        <Setter Property="Background" Value="#5e687d" />
-                    </Style>
-                    <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
-                        <Setter Property="Background" Value="#5e687d" />
-                    </Style>
-                    <Style Selector="ListBoxItem.blink">
-                        <Style.Animations>
-                            <Animation Duration="0:0:0.75" IterationCount="3" FillMode="Forward">
-                                <KeyFrame Cue="0%">
-                                    <Setter Property="BorderBrush" Value="{StaticResource ButtonHoverColor}" />
-                                </KeyFrame>
-                                <KeyFrame Cue="25%">
-                                    <Setter Property="BorderBrush" Value="{StaticResource SuccessColor}" />
-                                </KeyFrame>
-                                <KeyFrame Cue="50%">
-                                    <Setter Property="BorderBrush" Value="White" />
-                                </KeyFrame>
-                                <KeyFrame Cue="75%">
-                                    <Setter Property="BorderBrush" Value="{StaticResource SuccessColor}" />
-                                </KeyFrame>
-                                <KeyFrame Cue="100%">
-                                    <Setter Property="BorderBrush" Value="{StaticResource ButtonHoverColor}" />
-                                </KeyFrame>
-                            </Animation>
-                        </Style.Animations>
-                    </Style>
+        <Border Background="{StaticResource ButtonColor}">
+            <StackPanel Orientation="Horizontal" Spacing="5">
+                <ListBox Name="ListLanguages" x:Name="ListLanguages" Padding="5"
+                         ItemsSource="{Binding Breadcrumbs}"
+                         Background="Transparent">
+                    <ListBox.Styles>
+                        <Style Selector="ListBoxItem">
+                            <Setter Property="Height" Value="32"></Setter>
+                            <Setter Property="BorderThickness" Value="1"></Setter>
+                            <!-- <Setter Property="BorderBrush" Value="White"></Setter> -->
+                            <Setter Property="FontSize" Value="18"></Setter>
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="Padding" Value="0"></Setter>
+                            <Setter Property="Cursor" Value="Hand"></Setter>
+                        </Style>
+                        <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
+                            <Setter Property="Background" Value="Transparent" />
+                        </Style>
+                        <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+                            <Setter Property="Background" Value="Transparent" />
+                        </Style>
+                        <Style Selector="Button.Breadcrumb">
+                            <Setter Property="Opacity" Value="0.5"></Setter>
+                        </Style>
+                        <Style Selector="Button.Breadcrumb.Active">
+                            <Setter Property="Opacity" Value="1"></Setter>
+                        </Style>
+                    </ListBox.Styles>
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" Spacing="5" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Spacing="5">
+                                <TextBlock Text="›" />
 
-
-                </ListBox.Styles>
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel>
-                            <TextBlock Text="{Binding Name}" Foreground="White"></TextBlock>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </StackPanel>
+                                <Button Classes="Empty Breadcrumb" Classes.Active="{Binding Active}"
+                                        Command="{Binding Command}" Content="{Binding Name}" Foreground="White">
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+        </Border>
         <ContentControl Grid.Row="1" Content="{Binding CurrentPage}" />
     </Grid>
 </Window>

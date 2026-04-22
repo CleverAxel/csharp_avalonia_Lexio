@@ -11,5 +11,10 @@ public partial class DictionaryViewModel : ViewModelBase {
         RoutingService routingService
     ) {
         _routingService = routingService;
+        
+        routingService.SetPath(
+            routingService.HomeBreadcrumb(),
+            routingService.DictionaryBreadcrumb(true)
+        );
     }
 }

@@ -11,8 +11,9 @@ namespace Lexio.App.ViewModels;
 public partial class MainWindowViewModel : ViewModelBase {
     [ObservableProperty]
     private ObservableObject _currentPage;
-    
+
     private ObservableCollection<BreadcrumbItem> _breadcrumbItems = new ObservableCollection<BreadcrumbItem>();
+
     public ObservableCollection<BreadcrumbItem> Breadcrumbs {
         get => _breadcrumbItems;
         set => SetProperty(ref _breadcrumbItems, value);
@@ -21,7 +22,7 @@ public partial class MainWindowViewModel : ViewModelBase {
 
     [ObservableProperty]
     private RoutingService _routingService;
-    
+
     public MainWindowViewModel(
         RoutingService routingService
     ) {
@@ -29,30 +30,28 @@ public partial class MainWindowViewModel : ViewModelBase {
         routingService.GoDictionaryCommand = GoToDictionaryCommand;
         routingService.GoLanguageManagementCommand = GoToLanguageManagementCommand;
         routingService.GoHomeCommand = GoToHomeCommand;
-        
+
         // TODO Cleanup
         routingService.BreadcrumbChanged += OnBreadcrumbChanged;
-        
+
         _currentPage = App.ServiceProvider.GetRequiredService<HomeViewModel>();
-        Breadcrumbs.Add(routingService.HomeBreadcrumb());
-        Breadcrumbs.Add(routingService.DictionaryBreadcrumb());
-        Breadcrumbs.Add(routingService.LanguageManagementBreadcrumb());
+
     }
-    
-    private void OnBreadcrumbChanged(IEnumerable<BreadcrumbItem> items)
-    {
+
+    private void OnBreadcrumbChanged(IEnumerable<BreadcrumbItem> items) {
         Breadcrumbs.Clear();
         foreach (var item in items)
             Breadcrumbs.Add(item);
     }
-    
+
 
     [RelayCommand]
     private void GoToHome() => CurrentPage = App.ServiceProvider.GetRequiredService<HomeViewModel>();
-    
+
     [RelayCommand]
     private void GoToDictionary() => CurrentPage = App.ServiceProvider.GetRequiredService<DictionaryViewModel>();
 
     [RelayCommand]
-    private void GoToLanguageManagement() => CurrentPage = App.ServiceProvider.GetRequiredService<LanguageManagementViewModel>();
+    private void GoToLanguageManagement() =>
+        CurrentPage = App.ServiceProvider.GetRequiredService<LanguageManagementViewModel>();
 }

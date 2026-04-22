@@ -15,6 +15,9 @@ public partial class HomeViewModel : ViewModelBase {
         RoutingService routingService
     ) {
         _routingService = routingService;
+        routingService.SetPath(
+            routingService.HomeBreadcrumb(true)
+        );
     }
     
 }

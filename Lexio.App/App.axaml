@@ -75,5 +75,39 @@
             <Setter Property="BorderThickness" Value="0" />
         </Style>
         
+        
+        
+        <Style Selector="Button.Empty">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="MinWidth" Value="0"/>
+            <Setter Property="MinHeight" Value="0"/>
+        </Style>
+
+        <Style Selector="Button.Empty:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"></Setter>
+        </Style>
+
+        <Style Selector="Button.Empty:pressed /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="RenderTransform" Value="none" />
+        </Style>
+        
+        <Style Selector="Button.Empty:pressed">
+            <Setter Property="RenderTransform" Value="none" />
+        </Style>
+
+        <Style Selector="Button.Empty:disabled /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+        </Style>
+        
     </Application.Styles>
 </Application>

@@ -7,6 +7,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Lexio.App.Dialog;
 using Lexio.App.Helpers;
+using Lexio.App.Routing;
 
 namespace Lexio.App.ViewModels.Dictionary;
 
@@ -33,9 +34,15 @@ public partial class LanguageManagementViewModel : ViewModelBase {
     
     private readonly DialogService _dialogService;
 
-    public LanguageManagementViewModel(DialogService dialogService) {
+    public LanguageManagementViewModel(DialogService dialogService, RoutingService routingService) {
         LoadDummyLanguages();
         _dialogService = dialogService;
+        
+        routingService.SetPath(
+            routingService.HomeBreadcrumb(),
+            routingService.DictionaryBreadcrumb(),
+            routingService.LanguageManagementBreadcrumb(true)
+        );
     }
 
     [RelayCommand]
