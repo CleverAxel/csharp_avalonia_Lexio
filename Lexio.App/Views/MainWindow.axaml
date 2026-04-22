@@ -15,7 +15,7 @@
         Height="720"
         CanResize="False"
         WindowStartupLocation="CenterScreen">
-    
+
     <Window.DataTemplates>
         <DataTemplate DataType="vm:HomeViewModel">
             <views:HomeView></views:HomeView>
@@ -27,6 +27,13 @@
             <dictionary1:LanguageManagementView></dictionary1:LanguageManagementView>
         </DataTemplate>
     </Window.DataTemplates>
-    
-    <ContentControl Content="{Binding CurrentPage}" />
+
+    <Grid RowDefinitions="Auto, *">
+        <StackPanel Orientation="Horizontal" Spacing="5">
+            <TextBlock Foreground="White">Page A</TextBlock>
+            <TextBlock Foreground="White">></TextBlock>
+            <TextBlock Foreground="White">SubPage A</TextBlock>
+        </StackPanel>
+        <ContentControl Grid.Row="1" Content="{Binding CurrentPage}" />
+    </Grid>
 </Window>

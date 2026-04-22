@@ -17,14 +17,12 @@ public partial class LanguageManagementViewModel : ViewModelBase {
     private bool _showLanguageAlreadyExist = false;
     
     private ObservableCollection<LanguageViewModel> _availableLanguageModels = null!;
-
     public ObservableCollection<LanguageViewModel> AvailableLanguageModels {
         get => _availableLanguageModels;
         set => SetProperty(ref _availableLanguageModels, value);
     }
 
     private ObservableCollection<LanguageViewModel> _addedLanguageModels = new ObservableCollection<LanguageViewModel>();
-
     public ObservableCollection<LanguageViewModel> AddedLanguageModels {
         get => _addedLanguageModels;
         set => SetProperty(ref _addedLanguageModels, value);
@@ -32,13 +30,7 @@ public partial class LanguageManagementViewModel : ViewModelBase {
 
     [ObservableProperty]
     private LanguageViewModel? _selectedLanguage;
-
-    [ObservableProperty]
-    private string _newLanguageName;
-
-    [ObservableProperty]
-    private string _newLanguageCode;
-
+    
     private readonly DialogService _dialogService;
 
     public LanguageManagementViewModel(DialogService dialogService) {
