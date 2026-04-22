@@ -7,18 +7,21 @@
              x:DataType="dictionary:LanguageManagementViewModel"
              x:Class="Lexio.App.Views.Dictionary.LanguageManagementView">
     <UserControl.Styles>
+        <Style Selector="Button.Base">
+            <Setter Property="Padding" Value="10"></Setter>
+        </Style>
         <Style Selector="Button.Edit /template/ ContentPresenter">
-            <Setter Property="Background" Value="#3b82f6" />
+            <Setter Property="Background" Value="{StaticResource InfoColor}" />
         </Style>
         <Style Selector="Button.Edit:pointerover /template/ ContentPresenter">
-            <Setter Property="Background" Value="#60a5fa" />
+            <Setter Property="Background" Value="{StaticResource InfoColorHover}" />
         </Style>
 
         <Style Selector="Button.Delete /template/ ContentPresenter">
-            <Setter Property="Background" Value="#ef4444" />
+            <Setter Property="Background" Value="{StaticResource DangerColor}" />
         </Style>
         <Style Selector="Button.Delete:pointerover /template/ ContentPresenter">
-            <Setter Property="Background" Value="#f87171" />
+            <Setter Property="Background" Value="{StaticResource DangerHoverColor}" />
         </Style>
     </UserControl.Styles>
     <Grid>
