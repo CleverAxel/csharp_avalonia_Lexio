@@ -17,10 +17,15 @@ public partial class MainWindowViewModel : ViewModelBase {
         get => _breadcrumbItems;
         set => SetProperty(ref _breadcrumbItems, value);
     }
+
+
+    [ObservableProperty]
+    private RoutingService _routingService;
     
     public MainWindowViewModel(
         RoutingService routingService
     ) {
+        _routingService = routingService;
         routingService.GoDictionaryCommand = GoToDictionaryCommand;
         routingService.GoLanguageManagementCommand = GoToLanguageManagementCommand;
         routingService.GoHomeCommand = GoToHomeCommand;
@@ -29,6 +34,9 @@ public partial class MainWindowViewModel : ViewModelBase {
         routingService.BreadcrumbChanged += OnBreadcrumbChanged;
         
         _currentPage = App.ServiceProvider.GetRequiredService<HomeViewModel>();
+        Breadcrumbs.Add(routingService.HomeBreadcrumb());
+        Breadcrumbs.Add(routingService.DictionaryBreadcrumb());
+        Breadcrumbs.Add(routingService.LanguageManagementBreadcrumb());
     }
     
     private void OnBreadcrumbChanged(IEnumerable<BreadcrumbItem> items)
