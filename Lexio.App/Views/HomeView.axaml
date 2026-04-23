@@ -14,7 +14,7 @@
             <Setter Property="FontWeight" Value="ExtraBold"></Setter>
             <Setter Property="Background" Value="#414c61" />
             <Setter Property="Foreground" Value="White"></Setter>
-            <Setter Property="CornerRadius" Value="99"></Setter>
+            <Setter Property="CornerRadius" Value="10"></Setter>
             <Setter Property="Cursor" Value="hand"></Setter>
         </Style>
         <Style Selector="Button.NavButton /template/ ContentPresenter">
@@ -81,13 +81,7 @@
                                            Padding="10 2"
                                            VerticalAlignment="Center" />
 
-                                <PathIcon Grid.Row="0"
-                                          x:Name="Icon"
-                                          HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"
-                                          Height="32" Width="32"
-                                          Foreground="White"
-                                          Data="{StaticResource BookLetterRegular}" />
+                                <TextBlock Grid.Row="0" HorizontalAlignment="Center">📚</TextBlock>
                             </Grid>
                         </DataTemplate>
                     </Button.ContentTemplate>
@@ -103,13 +97,7 @@
                                            Padding="10 2"
                                            VerticalAlignment="Center" />
 
-                                <PathIcon Grid.Row="0"
-                                          x:Name="Icon"
-                                          HorizontalAlignment="Center"
-                                          VerticalAlignment="Center"
-                                          Height="32" Width="32"
-                                          Foreground="White"
-                                          Data="{StaticResource VoteRegular}" />
+                                <TextBlock Grid.Row="0" HorizontalAlignment="Center">📔</TextBlock>
                             </Grid>
                         </DataTemplate>
                     </Button.ContentTemplate>

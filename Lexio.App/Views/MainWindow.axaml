@@ -56,6 +56,12 @@
                         <Style Selector="Button.Breadcrumb.Active">
                             <Setter Property="Opacity" Value="1"></Setter>
                         </Style>
+                        <Style Selector="TextBlock.CaretBreadcrumb">
+                            <Setter Property="Opacity" Value="0.5"></Setter>
+                        </Style>
+                        <Style Selector="TextBlock.CaretBreadcrumb.Active">
+                            <Setter Property="Opacity" Value="1"></Setter>
+                        </Style>
                     </ListBox.Styles>
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -65,8 +71,8 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" Spacing="5">
-                                <TextBlock Text="›" />
-
+                                <TextBlock Classes="CaretBreadcrumb" Classes.Active="{Binding Active}" Text="›"  />
+                                
                                 <Button Classes="Empty Breadcrumb" Classes.Active="{Binding Active}"
                                         Command="{Binding Command}" Content="{Binding Name}" Foreground="White">
                                 </Button>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -52,6 +53,8 @@ public partial class MainWindowViewModel : ViewModelBase {
     private void GoToDictionary() => CurrentPage = App.ServiceProvider.GetRequiredService<DictionaryViewModel>();
 
     [RelayCommand]
-    private void GoToLanguageManagement() =>
+    private void GoToLanguageManagement(string? query)  {
+        Console.WriteLine(query);
         CurrentPage = App.ServiceProvider.GetRequiredService<LanguageManagementViewModel>();
+    }
 }

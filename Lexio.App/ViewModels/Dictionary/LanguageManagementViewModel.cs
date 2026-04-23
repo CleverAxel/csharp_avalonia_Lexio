@@ -13,17 +13,20 @@ namespace Lexio.App.ViewModels.Dictionary;
 
 public partial class LanguageManagementViewModel : ViewModelBase {
     public Action? ClearAutoCompleteTextInput;
-    
+
     [ObservableProperty]
     private bool _showLanguageAlreadyExist = false;
-    
+
     private ObservableCollection<LanguageViewModel> _availableLanguageModels = null!;
+
     public ObservableCollection<LanguageViewModel> AvailableLanguageModels {
         get => _availableLanguageModels;
         set => SetProperty(ref _availableLanguageModels, value);
     }
 
-    private ObservableCollection<LanguageViewModel> _addedLanguageModels = new ObservableCollection<LanguageViewModel>();
+    private ObservableCollection<LanguageViewModel>
+        _addedLanguageModels = new ObservableCollection<LanguageViewModel>();
+
     public ObservableCollection<LanguageViewModel> AddedLanguageModels {
         get => _addedLanguageModels;
         set => SetProperty(ref _addedLanguageModels, value);
@@ -31,13 +34,13 @@ public partial class LanguageManagementViewModel : ViewModelBase {
 
     [ObservableProperty]
     private LanguageViewModel? _selectedLanguage;
-    
+
     private readonly DialogService _dialogService;
 
     public LanguageManagementViewModel(DialogService dialogService, RoutingService routingService) {
         LoadDummyLanguages();
         _dialogService = dialogService;
-        
+
         routingService.SetPath(
             routingService.HomeBreadcrumb(),
             routingService.DictionaryBreadcrumb(),
@@ -64,14 +67,17 @@ public partial class LanguageManagementViewModel : ViewModelBase {
             ShowLanguageAlreadyExist = true;
             SelectedLanguage = null;
             ClearAutoCompleteTextInput?.Invoke();
-            
+
             // it's blocking the thread, what the fuck
-            Task.Delay(7500).ContinueWith(_ => ShowLanguageAlreadyExist = false);
+            _ = Task.Run(async () => {
+                await Task.Delay(7500);
+                ShowLanguageAlreadyExist = false;
+            });
             return;
         }
 
         var clone = SelectedLanguage.Clone();
-        
+
         // fucking dirty as fuck for now
         AddedLanguageModels.Add(clone);
         var sorted = AddedLanguageModels.OrderBy(l => l.Name).ToList();
@@ -79,6 +85,7 @@ public partial class LanguageManagementViewModel : ViewModelBase {
         foreach (var item in sorted) {
             AddedLanguageModels.Add(item);
         }
+
         WeakReferenceMessenger.Default.Send(clone);
         ClearAutoCompleteTextInput?.Invoke();
     }
