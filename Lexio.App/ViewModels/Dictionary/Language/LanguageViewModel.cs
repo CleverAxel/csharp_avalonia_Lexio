@@ -1,7 +1,7 @@
 using System;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace Lexio.App.ViewModels.Dictionary;
+namespace Lexio.App.ViewModels.Dictionary.Language;
 
 public partial class LanguageViewModel : ViewModelBase {
         [ObservableProperty]

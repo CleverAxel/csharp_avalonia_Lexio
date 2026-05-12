@@ -42,8 +42,17 @@ public class RoutingService {
             Active = active
         };
     }
+    
+    public BreadcrumbItem WordManagementBreadcrumb(bool active = false) {
+        return new BreadcrumbItem() {
+            Command = GoWordManagementCommand,
+            Name = "✒️Gestion des mots disponibles",
+            Active = active
+        };
+    }
 
     public IRelayCommand GoHomeCommand { get; set; } = null!;
     public IRelayCommand GoDictionaryCommand { get; set; } = null!;
     public IRelayCommand GoLanguageManagementCommand { get; set; } = null!;
+    public IRelayCommand GoWordManagementCommand { get; set; } = null!;
 }

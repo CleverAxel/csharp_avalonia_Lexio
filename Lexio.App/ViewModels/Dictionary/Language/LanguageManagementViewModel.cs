@@ -9,7 +9,7 @@ using Lexio.App.Dialog;
 using Lexio.App.Routing;
 using Lexio.App.Services;
 
-namespace Lexio.App.ViewModels.Dictionary;
+namespace Lexio.App.ViewModels.Dictionary.Language;
 
 public partial class LanguageManagementViewModel : ViewModelBase {
     public Action? ClearAutoCompleteTextInput;

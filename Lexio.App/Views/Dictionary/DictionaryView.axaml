@@ -47,7 +47,7 @@
                     
                     <Button
                         Grid.Row="1"
-                        Command="{Binding RoutingService.GoLanguageManagementCommand}"
+                        Command="{Binding RoutingService.GoWordManagementCommand}"
                         CommandParameter="Test query dictionary view"
                         Classes="Base"
                         CornerRadius="10"

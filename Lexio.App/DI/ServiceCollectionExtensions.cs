@@ -2,7 +2,9 @@ using Lexio.App.Dialog;
 using Lexio.App.Routing;
 using Lexio.App.Services;
 using Lexio.App.ViewModels;
+using Lexio.App.ViewModels.Dictionary.Language;
 using Lexio.App.ViewModels.Dictionary;
+using Lexio.App.ViewModels.Dictionary.Word;
 using Lexio.Core.Database;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -29,5 +31,6 @@ public static class ServiceCollectionExtensions
         
         collection.AddTransient<DictionaryViewModel>();
         collection.AddTransient<LanguageManagementViewModel>();
+        collection.AddTransient<WordManagementViewModel>();
     }
 }

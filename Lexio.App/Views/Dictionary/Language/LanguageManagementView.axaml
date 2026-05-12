@@ -3,9 +3,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             xmlns:dictionary="clr-namespace:Lexio.App.ViewModels.Dictionary"
+             xmlns:dictionary="clr-namespace:Lexio.App.ViewModels.Dictionary.Language"
              x:DataType="dictionary:LanguageManagementViewModel"
-             x:Class="Lexio.App.Views.Dictionary.LanguageManagementView">
+             x:Class="Lexio.App.Views.Dictionary.Language.LanguageManagementView">
     <UserControl.Styles>
         <Style Selector="Button.Base">
             <Setter Property="Padding" Value="10"></Setter>

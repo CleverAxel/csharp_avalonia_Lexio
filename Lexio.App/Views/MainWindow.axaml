@@ -1,11 +1,16 @@
+<!-- ReSharper disable once InconsistentNaming -->
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:Lexio.App.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:dictionary="clr-namespace:Lexio.App.ViewModels.Dictionary"
+        xmlns:dictionary-view="clr-namespace:Lexio.App.Views.Dictionary"
+        xmlns:language="clr-namespace:Lexio.App.ViewModels.Dictionary.Language"
+        xmlns:language-view="clr-namespace:Lexio.App.Views.Dictionary.Language"        
         xmlns:views="clr-namespace:Lexio.App.Views"
-        xmlns:dictionary1="clr-namespace:Lexio.App.Views.Dictionary"
+        xmlns:word="clr-namespace:Lexio.App.ViewModels.Dictionary.Word"
+        xmlns:word1="clr-namespace:Lexio.App.Views.Dictionary.Word"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Lexio.App.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
@@ -21,10 +26,13 @@
             <views:HomeView></views:HomeView>
         </DataTemplate>
         <DataTemplate DataType="dictionary:DictionaryViewModel">
-            <dictionary1:DictionaryView></dictionary1:DictionaryView>
+            <dictionary-view:DictionaryView></dictionary-view:DictionaryView>
         </DataTemplate>
-        <DataTemplate DataType="dictionary:LanguageManagementViewModel">
-            <dictionary1:LanguageManagementView></dictionary1:LanguageManagementView>
+        <DataTemplate DataType="language:LanguageManagementViewModel">
+            <language-view:LanguageManagementView></language-view:LanguageManagementView>
+        </DataTemplate>
+        <DataTemplate DataType="word:WordManagementViewModel">
+            <word1:WordManagementView></word1:WordManagementView>
         </DataTemplate>
     </Window.DataTemplates>
 

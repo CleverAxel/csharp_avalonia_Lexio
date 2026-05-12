@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Lexio.App.ViewModels.Dictionary;
+using Lexio.App.ViewModels.Dictionary.Language;
 using Lexio.Core.Database;
 using Lexio.Core.Database.Models;
 using Microsoft.EntityFrameworkCore;

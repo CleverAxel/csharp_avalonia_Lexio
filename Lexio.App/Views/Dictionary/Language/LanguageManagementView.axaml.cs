@@ -5,9 +5,9 @@ using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.Messaging;
-using Lexio.App.ViewModels.Dictionary;
+using Lexio.App.ViewModels.Dictionary.Language;
 
-namespace Lexio.App.Views.Dictionary;
+namespace Lexio.App.Views.Dictionary.Language;
 
 public partial class LanguageManagementView : UserControl {
     private ListBox? _listLanguages;
