@@ -1,0 +1,56 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="300"
+        x:Class="Lexio.App.Views.Dialog.PromptDialogView"
+        xmlns:vm="clr-namespace:Lexio.App.ViewModels.Dialog"
+        x:DataType="vm:PromptDialogViewModel"
+        Title="PromptDialogView"
+        Width="600"
+        Height="300"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False"
+        ShowInTaskbar="False"
+        >
+    <Window.KeyBindings>
+        <KeyBinding Gesture="Enter" Command="{Binding ConfirmCommand}" />
+        <KeyBinding Gesture="Escape" Command="{Binding CancelCommand}" />
+    </Window.KeyBindings>
+    
+    <Window.Styles>
+        <Style Selector="Button.Cancel /template/ ContentPresenter">
+            <Setter Property="Background" Value="{StaticResource DangerColor}" />
+        </Style>
+        <Style Selector="Button.Cancel:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="{StaticResource DangerHoverColor}" />
+        </Style>
+
+        <Style Selector="Button.Confirm /template/ ContentPresenter">
+            <Setter Property="Background" Value="{StaticResource SuccessColor}" />
+        </Style>
+        <Style Selector="Button.Confirm:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="{StaticResource SuccessHoverColor}" />
+        </Style>
+    </Window.Styles>
+
+    <Grid RowDefinitions="*,Auto, Auto" Margin="20">
+        <TextBlock Grid.Row="0" Text="{Binding Message}"
+                   TextWrapping="Wrap" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Center" 
+                   Foreground="White" 
+                   FontSize="18" 
+                   FontWeight="ExtraBold" />
+        
+        <Border Grid.Row="1">
+            <TextBox Text="{Binding Input}"></TextBox>
+        </Border>
+
+        <StackPanel Margin="0 10 0 0" Grid.Row="2" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8">
+            <Button Classes="Base Cancel" Content="NON" Command="{Binding CancelCommand}" />
+            <Button Classes="Base Confirm" Content="OUI" Command="{Binding ConfirmCommand}" />
+        </StackPanel>
+    </Grid>
+</Window>

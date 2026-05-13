@@ -17,17 +17,15 @@ public partial class LanguageManagementViewModel : ViewModelBase {
     [ObservableProperty]
     private bool _showLanguageAlreadyExist = false;
 
-    private ObservableCollection<LanguageViewModel> _availableLanguageModels = null!;
     public ObservableCollection<LanguageViewModel> AvailableLanguageModels {
-        get => _availableLanguageModels;
-        set => SetProperty(ref _availableLanguageModels, value);
-    }
+        get;
+        set => SetProperty(ref field, value);
+    } = null!;
 
-    private ObservableCollection<LanguageViewModel> _addedLanguageModels = new ObservableCollection<LanguageViewModel>();
     public ObservableCollection<LanguageViewModel> AddedLanguageModels {
-        get => _addedLanguageModels;
-        set => SetProperty(ref _addedLanguageModels, value);
-    }
+        get;
+        set => SetProperty(ref field, value);
+    } = new ObservableCollection<LanguageViewModel>();
 
     [ObservableProperty]
     private LanguageViewModel? _selectedLanguage;
@@ -88,7 +86,7 @@ public partial class LanguageManagementViewModel : ViewModelBase {
         }
 
         var clone = SelectedLanguage.Clone();
-        _languageService.AddLanguageAsync(
+        _ =_languageService.AddLanguageAsync(
             name: clone.Name,
             code:clone.Code,
             flag:clone.Flag
@@ -104,9 +102,6 @@ public partial class LanguageManagementViewModel : ViewModelBase {
             WeakReferenceMessenger.Default.Send(clone);
             ClearAutoCompleteTextInput?.Invoke();
         }));
-        
-            
-
     }
 
     private async Task LoadAvailableLanguages() {

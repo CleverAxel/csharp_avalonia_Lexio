@@ -6,5 +6,34 @@
              x:Class="Lexio.App.Views.Dictionary.Word.WordManagementView"
              xmlns:word="clr-namespace:Lexio.App.ViewModels.Dictionary.Word"
              x:DataType="word:WordManagementViewModel">
-    Welcome to Avalonia!
+    <UserControl.Styles>
+        <Style Selector="TextBox.Base">
+            <Setter Property="MinHeight" Value="20" />
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="Background" Value="White" />
+        </Style>
+
+        <Style Selector="TextBox.Base /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="BorderThickness" Value="2"></Setter>
+            <Setter Property="BorderBrush" Value="White"></Setter>
+        </Style>
+
+        <Style Selector="TextBox.Base:pointerover /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="BorderBrush" Value="{StaticResource InfoColorHover}"></Setter>
+        </Style>
+
+        <Style Selector="TextBox.Base:focus /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="BorderBrush" Value="{StaticResource InfoColor}"></Setter>
+            
+        </Style>
+    </UserControl.Styles>
+    <StackPanel>
+        <Button Classes="Base" Command="{Binding TestCommand}">
+            Test
+        </Button>
+        <TextBox Classes="Base" Text="Hello world"></TextBox>
+    </StackPanel>
 </UserControl>
