@@ -5,13 +5,13 @@ using Avalonia.Markup.Xaml;
 
 namespace Lexio.App.Views.Dialog;
 
-public partial class PromptDialogView : Window {
-    public PromptDialogView() {
+public partial class AlertDialogView : Window {
+    public AlertDialogView() {
         InitializeComponent();
     }
     
     protected override void OnOpened(EventArgs e) {
         base.OnOpened(e);
-        InputTextBox.Focus();
+        ButtonConfirm.Focus();
     }
 }

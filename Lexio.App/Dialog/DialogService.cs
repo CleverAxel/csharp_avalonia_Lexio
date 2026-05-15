@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Threading;
 using Lexio.App.ViewModels.Dialog;
 using Lexio.App.Views.Dialog;
 
@@ -22,5 +23,15 @@ public class DialogService {
         dialog.Title = title;
         dialog.DataContext = new PromptDialogViewModel(dialog, message, input);
         return await dialog.ShowDialog<string?>(MainWindow);
+    }
+    
+    public async Task ShowAlertAsync(string message, string title = "Alerte") {
+        await Dispatcher.UIThread.InvokeAsync(async () => {
+            AlertDialogView dialog = new AlertDialogView();
+            dialog.Title = title;
+            dialog.DataContext = new AlertDialogViewModel(dialog, message);
+            await dialog.ShowDialog(MainWindow);
+        } );
+
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Lexio.App.Dialog;
@@ -23,12 +24,12 @@ public partial class WordManagementViewModel : ViewModelBase {
     };*/
 
     private char _selectedChar = 'A';
-    
+
     public ObservableCollection<FilterCharViewModel> FilterChars {
         get;
         set => SetProperty(ref field, value);
     } = new ObservableCollection<FilterCharViewModel>();
-    
+
     public WordManagementViewModel(
         RoutingService routingService,
         DialogService dialogService,
@@ -49,7 +50,7 @@ public partial class WordManagementViewModel : ViewModelBase {
 
     private void UpdateUIFilterChar(char c = 'A') {
         _selectedChar = c;
-        FilterChars = 
+        FilterChars =
             new ObservableCollection<FilterCharViewModel>(
                 "ABCDEFGHIJKLMNOPQRSTUVWXYZ".Select(c => new FilterCharViewModel(c, _selectedChar == c))
             );
@@ -63,12 +64,19 @@ public partial class WordManagementViewModel : ViewModelBase {
 
     [RelayCommand]
     public async Task AddNewWord() {
-        string? newWord = await _dialogService.ShowPromptAsync("Quel est le nouveau mot à ajouter ?", "", "Nouveau mot");
-        if(String.IsNullOrWhiteSpace(newWord))
+        string? newWord =
+            await _dialogService.ShowPromptAsync("Quel est le nouveau mot à ajouter ?", "", "Nouveau mot");
+        if (String.IsNullOrWhiteSpace(newWord))
             return;
 
         _ = Task.Run(async () => {
-            await _wordService.AddNewWord(newWord);
+            try {
+                await _wordService.AddNewWord(newWord);
+                await _dialogService.ShowAlertAsync($"Le mot : \"{newWord}\", a été correctement ajouté.", "Mot ajouté.");
+            }
+            catch (Exception e) {
+                await _dialogService.ShowAlertAsync(e.Message);
+            }
         });
     }
 

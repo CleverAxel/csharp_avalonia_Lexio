@@ -1,0 +1,41 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        xmlns:vm="clr-namespace:Lexio.App.ViewModels.Dialog"
+        x:DataType="vm:AlertDialogViewModel"
+        x:Class="Lexio.App.Views.Dialog.AlertDialogView"
+        Title="AlertDialogView"
+        Width="450"
+        Height="200"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False"
+        ShowInTaskbar="False">
+
+    
+    <Window.Styles>
+        <Style Selector="Button.Confirm /template/ ContentPresenter">
+            <Setter Property="Background" Value="{StaticResource SuccessColor}" />
+        </Style>
+        <Style Selector="Button.Confirm:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="{StaticResource SuccessHoverColor}" />
+        </Style>
+    </Window.Styles>
+
+    <Grid RowDefinitions="*,Auto" Margin="20">
+        <TextBlock Grid.Row="0" Text="{Binding Message}"
+                   TextWrapping="Wrap" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Center"
+                   TextAlignment="Center"
+                   Foreground="White" 
+                   FontSize="18" 
+                   FontWeight="ExtraBold" />
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Spacing="8">
+            <Button x:Name="ButtonConfirm" Classes="Base Confirm" Content="OK" Command="{Binding ConfirmCommand}" IsDefault="True" />
+        </StackPanel>
+    </Grid>
+</Window>
