@@ -40,5 +40,9 @@
         <DependentUpon>LanguageManagementView.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
+      <Compile Update="Views\Dialog\ConfirmDialogView.axaml.cs">
+        <DependentUpon>ConfirmDialogView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
     </ItemGroup>
 </Project>

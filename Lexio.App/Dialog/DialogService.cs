@@ -1,8 +1,6 @@
 using System.Threading.Tasks;
 using Avalonia.Controls;
-using Lexio.App.ViewModels;
 using Lexio.App.ViewModels.Dialog;
-using Lexio.App.Views;
 using Lexio.App.Views.Dialog;
 
 namespace Lexio.App.Dialog;

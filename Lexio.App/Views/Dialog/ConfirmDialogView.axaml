@@ -3,14 +3,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200"
-        xmlns:vm="clr-namespace:Lexio.App.ViewModels"
+        xmlns:vm="clr-namespace:Lexio.App.ViewModels.Dialog"
         x:DataType="vm:ConfirmDialogViewModel"
         Width="450"
         Height="200"
         WindowStartupLocation="CenterOwner"
         CanResize="False"
         ShowInTaskbar="False"
-        x:Class="Lexio.App.Views.ConfirmDialogView"
+        x:Class="Lexio.App.Views.Dialog.ConfirmDialogView"
         Title="Confirmez bordel de merde">
     
     <Window.KeyBindings>

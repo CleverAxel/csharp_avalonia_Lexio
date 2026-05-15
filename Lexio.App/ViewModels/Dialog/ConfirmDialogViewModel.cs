@@ -1,7 +1,7 @@
 using Avalonia.Controls;
 using CommunityToolkit.Mvvm.Input;
 
-namespace Lexio.App.ViewModels;
+namespace Lexio.App.ViewModels.Dialog;
 
 public partial class ConfirmDialogViewModel : ViewModelBase {
     private readonly Window _dialog;
