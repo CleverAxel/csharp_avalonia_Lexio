@@ -38,7 +38,7 @@ public partial class MainWindowViewModel : ViewModelBase {
         // TODO Cleanup
         routingService.BreadcrumbChanged += OnBreadcrumbChanged;
 
-        _currentPage = App.ServiceProvider.GetRequiredService<WordManagementViewModel>();
+        _currentPage = App.ServiceProvider.GetRequiredService<DictionaryViewModel>();
 
     }
 

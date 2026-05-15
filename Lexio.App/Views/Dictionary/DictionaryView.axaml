@@ -6,7 +6,7 @@
              xmlns:dictionary="clr-namespace:Lexio.App.ViewModels.Dictionary"
              x:Class="Lexio.App.Views.Dictionary.DictionaryView"
              x:DataType="dictionary:DictionaryViewModel">
-    <Grid>
+    <Grid RowDefinitions="Auto, *">
         <Grid Margin="0 10" VerticalAlignment="Top" HorizontalAlignment="Stretch" RowDefinitions="Auto, Auto"
               RowSpacing="10">
 
@@ -63,6 +63,77 @@
                 </StackPanel>
             </Border>
         </Grid>
+        
+        
+        
+        
+        <Grid Grid.Row="1" Margin="0 50 0 0" VerticalAlignment="Top" HorizontalAlignment="Stretch" RowDefinitions="Auto, Auto"
+              RowSpacing="10">
+
+            <Border Grid.Row="0" HorizontalAlignment="Stretch" BorderBrush="White"
+                    Padding="10">
+                <Border
+                    BorderThickness="0 0 0 1"
+                    BorderBrush="White"
+                    Padding="0 0 0 5">
+                    <TextBlock
+                        Grid.Row="0"
+                        HorizontalAlignment="Stretch"
+                        FontSize="24"
+                        FontWeight="ExtraBold">
+                        ↳ Gérer les différentes traductions
+                    </TextBlock>
+                </Border>
+            </Border>
+
+            <Border Grid.Row="1" Padding="5 0">
+                <ListBox ItemsSource="{Binding TraductionsAvailable}"
+                         Background="Transparent"
+                         HorizontalAlignment="Left">
+
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal"
+                                       ItemSpacing="2"
+                                       LineSpacing="2" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+
+                    <ListBox.Styles>
+                        <Style Selector="ListBoxItem">
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="Margin" Value="0" />
+                            <Setter Property="MinHeight" Value="0" />
+                            <Setter Property="MinWidth" Value="0" />
+                        </Style>
+                        <Style Selector="Button.Base">
+                            <Setter Property="MinWidth" Value="300"></Setter>
+                        </Style>
+                    </ListBox.Styles>
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Button Classes="Base">
+                                <StackPanel Orientation="Vertical">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <TextBlock Text="🇫🇷"></TextBlock>
+                                        <TextBlock Text="Français"></TextBlock>
+                                    </StackPanel>     
+                                    <TextBlock Text="⇅" TextAlignment="Center"></TextBlock>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <TextBlock Text="{Binding Flag}"></TextBlock>
+                                        <TextBlock Text="{Binding Name}"></TextBlock>
+                                    </StackPanel>                                    
+                                </StackPanel>
+                            </Button>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+
+                </ListBox>
+            </Border>
+        </Grid>
+        
+        
     </Grid>
 
 </UserControl>

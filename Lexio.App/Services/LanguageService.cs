@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -56,4 +57,17 @@ public class LanguageService {
     public async Task RemoveLanguageAsync(string name) {
         await _context.Languages.Where(l => l.Name == name).ExecuteDeleteAsync();
     }
+
+    public async Task<List<LanguageViewModel>> GetAvailableTraductions() {
+        return await _context
+            .Languages
+            .Where(l => l.Code != "fr")
+            .Select(l => new LanguageViewModel() {
+                Id = l.Id,
+                Name = l.Name,
+                Code = l.Code,
+                Flag = l.Flag ?? ""
+            }).ToListAsync();
+    }
+    
 }
