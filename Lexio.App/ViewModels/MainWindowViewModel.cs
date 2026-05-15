@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.Input;
 using Lexio.App.Routing;
 using Lexio.App.ViewModels.Dictionary.Language;
 using Lexio.App.ViewModels.Dictionary;
+using Lexio.App.ViewModels.Dictionary.Traduction;
 using Lexio.App.ViewModels.Dictionary.Word;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -34,6 +35,7 @@ public partial class MainWindowViewModel : ViewModelBase {
         routingService.GoLanguageManagementCommand = GoToLanguageManagementCommand;
         routingService.GoHomeCommand = GoToHomeCommand;
         routingService.GoWordManagementCommand = GoToWordManagementCommand;
+        routingService.GoTraductionManagementCommand = GoToTraductionManagementCommand;
 
         // TODO Cleanup
         routingService.BreadcrumbChanged += OnBreadcrumbChanged;
@@ -64,6 +66,16 @@ public partial class MainWindowViewModel : ViewModelBase {
     [RelayCommand]
     private void GoToWordManagement()  {
         CurrentPage = App.ServiceProvider.GetRequiredService<WordManagementViewModel>();
+    }
+
+    [RelayCommand]
+    private void GoToTraductionManagement(LanguageViewModel languageViewModel) {
+        RoutingService.SetPath(
+            RoutingService.HomeBreadcrumb(),
+            RoutingService.DictionaryBreadcrumb(),
+            RoutingService.TraductionManagementBreadcrumb(languageViewModel.Flag, languageViewModel.Name, true)
+        );
+        CurrentPage = App.ServiceProvider.GetRequiredService<TraductionManagementViewModel>();
     }
     
 }

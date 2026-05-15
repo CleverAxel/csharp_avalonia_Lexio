@@ -1,6 +1,8 @@
+using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Lexio.App.Routing;
 using Lexio.App.Services;
 using Lexio.App.ViewModels.Dictionary.Language;
@@ -31,5 +33,10 @@ public partial class DictionaryViewModel : ViewModelBase {
             TraductionsAvailable =
                 new ObservableCollection<LanguageViewModel>(await languageService.GetAvailableTraductions());
         });
+    }
+
+    [RelayCommand]
+    public void Test(LanguageViewModel languageViewModel) {
+        RoutingService.GoTraductionManagementCommand.Execute(languageViewModel);
     }
 }

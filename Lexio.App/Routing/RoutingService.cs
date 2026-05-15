@@ -51,8 +51,17 @@ public class RoutingService {
         };
     }
 
+    public BreadcrumbItem TraductionManagementBreadcrumb(string flag, string language, bool active = false) {
+        return new BreadcrumbItem() {
+            Command = GoWordManagementCommand,
+            Name = $"{flag}Gestion de la traduction : {language}",
+            Active = active
+        };
+    }
+
     public IRelayCommand GoHomeCommand { get; set; } = null!;
     public IRelayCommand GoDictionaryCommand { get; set; } = null!;
     public IRelayCommand GoLanguageManagementCommand { get; set; } = null!;
     public IRelayCommand GoWordManagementCommand { get; set; } = null!;
+    public IRelayCommand GoTraductionManagementCommand { get; set; } = null!;
 }

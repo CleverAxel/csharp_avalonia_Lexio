@@ -113,7 +113,10 @@
 
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Button Classes="Base">
+                            <Button Classes="Base"
+                                    Command="{Binding $parent[ListBox].((dictionary:DictionaryViewModel)DataContext).RoutingService.GoTraductionManagementCommand}"
+                                    CommandParameter="{Binding .}"
+                                    >
                                 <StackPanel Orientation="Vertical">
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                         <TextBlock Text="🇫🇷"></TextBlock>
