@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Lexio.App.ViewModels.Dictionary.Word;
 using Lexio.Core.Database;
 using Lexio.Core.Database.Models;
 using Microsoft.EntityFrameworkCore;
@@ -36,5 +38,16 @@ public class WordService {
 
         await _context.SaveChangesAsync();
 
+    }
+
+    public async Task<List<WordViewModel>> GetWordListStartingBy(string c) {
+        return await _context.Words
+            .Where(w => EF.Functions.Like(w.Name, $"{c}%"))
+            .OrderBy(w => w.Name)
+            .Select(w => new WordViewModel() {
+                Id = w.Id,
+                Name = char.ToUpper(w.Name[0]) + w.Name.Substring(1),
+                Definition = w.Definition
+            }).ToListAsync();
     }
 }

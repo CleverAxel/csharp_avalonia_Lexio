@@ -7,6 +7,7 @@ using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Lexio.App.Dialog;
+using Lexio.App.Helpers;
 using Lexio.App.Routing;
 using Lexio.App.Services;
 
@@ -29,6 +30,11 @@ public partial class WordManagementViewModel : ViewModelBase {
         get;
         set => SetProperty(ref field, value);
     } = new ObservableCollection<FilterCharViewModel>();
+    
+    public ObservableCollection<WordViewModel> WordList {
+        get;
+        set => SetProperty(ref field, value);
+    } = new ObservableCollection<WordViewModel>();
 
     public WordManagementViewModel(
         RoutingService routingService,
@@ -45,21 +51,31 @@ public partial class WordManagementViewModel : ViewModelBase {
         );
 
         UpdateUIFilterChar();
+        _ = RefreshWordList();
     }
 
 
     private void UpdateUIFilterChar(char c = 'A') {
-        _selectedChar = c;
+        _selectedChar = c.ToString().ToAscii().ToUpper()[0];
         FilterChars =
             new ObservableCollection<FilterCharViewModel>(
-                "ABCDEFGHIJKLMNOPQRSTUVWXYZ".Select(c => new FilterCharViewModel(c, _selectedChar == c))
+                "ABCDEFGHIJKLMNOPQRSTUVWXYZ".Select(curr => new FilterCharViewModel(curr, _selectedChar == curr))
             );
     }
 
 
     [RelayCommand]
     public async Task ApplyCharFilterAsync(char c) {
+        if(c == _selectedChar)
+            return;
+        
         UpdateUIFilterChar(c);
+        await RefreshWordList();
+    }
+
+    public async Task RefreshWordList() {
+        WordList = new ObservableCollection<WordViewModel>(await _wordService.GetWordListStartingBy(_selectedChar.ToString()));
+        
     }
 
     [RelayCommand]
@@ -73,6 +89,8 @@ public partial class WordManagementViewModel : ViewModelBase {
             try {
                 await _wordService.AddNewWord(newWord);
                 await _dialogService.ShowAlertAsync($"Le mot : \"{newWord}\", a été correctement ajouté.", "Mot ajouté.");
+                UpdateUIFilterChar(newWord[0]);
+                await RefreshWordList();
             }
             catch (Exception e) {
                 await _dialogService.ShowAlertAsync(e.Message);
@@ -85,5 +103,11 @@ public partial class WordManagementViewModel : ViewModelBase {
     public async Task Test() {
         string? test = await _dialogService.ShowPromptAsync("Ceci est mon message", "input");
         Console.WriteLine(test ?? "NULL");
+    }
+
+
+    [RelayCommand]
+    public async Task DeleteWordAsync() {
+        
     }
 }
