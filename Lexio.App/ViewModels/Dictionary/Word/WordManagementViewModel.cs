@@ -50,12 +50,12 @@ public partial class WordManagementViewModel : ViewModelBase {
             routingService.WordManagementBreadcrumb(true)
         );
 
-        UpdateUIFilterChar();
+        UpdateUiFilterChar();
         _ = RefreshWordList();
     }
 
 
-    private void UpdateUIFilterChar(char c = 'A') {
+    private void UpdateUiFilterChar(char c = 'A') {
         _selectedChar = c.ToString().ToAscii().ToUpper()[0];
         FilterChars =
             new ObservableCollection<FilterCharViewModel>(
@@ -69,7 +69,7 @@ public partial class WordManagementViewModel : ViewModelBase {
         if(c == _selectedChar)
             return;
         
-        UpdateUIFilterChar(c);
+        UpdateUiFilterChar(c);
         await RefreshWordList();
     }
 
@@ -89,7 +89,7 @@ public partial class WordManagementViewModel : ViewModelBase {
             try {
                 await _wordService.AddNewWord(newWord);
                 await _dialogService.ShowAlertAsync($"Le mot : \"{newWord}\", a été correctement ajouté.", "Mot ajouté.");
-                UpdateUIFilterChar(newWord[0]);
+                UpdateUiFilterChar(newWord[0]);
                 await RefreshWordList();
             }
             catch (Exception e) {
@@ -107,7 +107,33 @@ public partial class WordManagementViewModel : ViewModelBase {
 
 
     [RelayCommand]
-    public async Task DeleteWordAsync() {
-        
+    public async Task DeleteWordAsync(WordViewModel wordViewModel) {
+
+        bool confirm = await _dialogService.ShowConfirmAsync($"Êtes-vous sûr de supprimer le mot : \"{wordViewModel.Name}\" ?", "Suppimer");
+
+        if (confirm) {
+            _ = Task.Run(async () => {
+                await _wordService.DeleteWordAsync(wordViewModel.Id);
+                await _dialogService.ShowAlertAsync($"Le mot : \"{wordViewModel.Name}\", a été correctement supprimé",
+                    "Suppression terminée.");
+                await RefreshWordList();
+            });
+        }
+    }
+
+    [RelayCommand]
+    public async Task EditWordAsync(WordViewModel wordViewModel) {
+        string? newWord = await _dialogService.ShowPromptAsync("Veuillez indiquer la nouvelle orthographe du mot : ",
+            wordViewModel.Name, "Modifier l'orthographe");
+
+        if (string.IsNullOrEmpty(newWord) || newWord?.FullyNormalize() == wordViewModel.Name.FullyNormalize())
+            return;
+
+        _ = Task.Run(async () => {
+            await _wordService.EditWordAsync(wordViewModel.Id, newWord!);
+            await _dialogService.ShowAlertAsync($"Le mot : \"{wordViewModel.Name}\", a été correctement modifié en : \"{newWord}\"",
+                "Modification terminée.");
+            await RefreshWordList();
+        });
     }
 }

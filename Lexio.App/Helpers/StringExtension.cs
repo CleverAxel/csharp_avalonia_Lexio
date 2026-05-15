@@ -23,4 +23,8 @@ public static class StringExtension {
     public static string ConvertWhitespacesToSingleSpaces(this string value) {
         return Regex.Replace(value, @"\s+", " ");
     }
+
+    public static string FullyNormalize(this string value) {
+        return value.TrimAndReduce().ToAscii().ToUpper();
+    }
 }

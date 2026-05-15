@@ -40,6 +40,19 @@ public class WordService {
 
     }
 
+    public async Task EditWordAsync(int wordId, string newName) {
+        await _context
+            .Words
+            .Where(w => w.Id == wordId)
+            .ExecuteUpdateAsync(w => w.SetProperty(n => n.Name, newName.ToLower()));
+    }
+    
+    public async Task DeleteWordAsync(int wordId) {
+        await _context
+            .Words
+            .Where(w => w.Id == wordId).ExecuteDeleteAsync();
+    }
+
     public async Task<List<WordViewModel>> GetWordListStartingBy(string c) {
         return await _context.Words
             .Where(w => EF.Functions.Like(w.Name, $"{c}%"))
