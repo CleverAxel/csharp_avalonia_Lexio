@@ -22,6 +22,7 @@ public static class ServiceCollectionExtensions
 
     private static void AddServices(this IServiceCollection collection) {
         collection.AddTransient<LanguageService>();
+        collection.AddTransient<WordService>();
     }
 
     private static void AddViewModels(IServiceCollection collection) {

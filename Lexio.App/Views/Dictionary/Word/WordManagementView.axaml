@@ -6,34 +6,54 @@
              x:Class="Lexio.App.Views.Dictionary.Word.WordManagementView"
              xmlns:word="clr-namespace:Lexio.App.ViewModels.Dictionary.Word"
              x:DataType="word:WordManagementViewModel">
-    <UserControl.Styles>
-        <Style Selector="TextBox.Base">
-            <Setter Property="MinHeight" Value="20" />
-            <Setter Property="FontSize" Value="20" />
-            <Setter Property="Background" Value="White" />
-        </Style>
 
-        <Style Selector="TextBox.Base /template/ Border#PART_BorderElement">
-            <Setter Property="Background" Value="White" />
-            <Setter Property="BorderThickness" Value="2"></Setter>
-            <Setter Property="BorderBrush" Value="White"></Setter>
-        </Style>
-
-        <Style Selector="TextBox.Base:pointerover /template/ Border#PART_BorderElement">
-            <Setter Property="Background" Value="White" />
-            <Setter Property="BorderBrush" Value="{StaticResource InfoColorHover}"></Setter>
-        </Style>
-
-        <Style Selector="TextBox.Base:focus /template/ Border#PART_BorderElement">
-            <Setter Property="Background" Value="White" />
-            <Setter Property="BorderBrush" Value="{StaticResource InfoColor}"></Setter>
-            
-        </Style>
-    </UserControl.Styles>
     <StackPanel>
-        <Button Classes="Base" Command="{Binding TestCommand}">
-            Test
-        </Button>
-        <TextBox Classes="Base" Text="Hello world"></TextBox>
+        <ListBox ItemsSource="{Binding FilterChars}"
+                 Background="Transparent"
+                 HorizontalAlignment="Center">
+
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal"
+                               ItemSpacing="2"
+                               LineSpacing="2" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+
+            <ListBox.Styles>
+                <Style Selector="ListBoxItem">
+                    <Setter Property="Padding" Value="0" />
+                    <Setter Property="Margin" Value="0" />
+                    <Setter Property="MinHeight" Value="0" />
+                    <Setter Property="MinWidth" Value="0" />
+                </Style>
+                <Style Selector="Button.Base">
+                    <Setter Property="Opacity" Value="0.5" />
+                </Style>
+                <Style Selector="Button.Base.Active">
+                    <Setter Property="Opacity" Value="1" />
+                </Style>
+            </ListBox.Styles>
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Button Classes="Base"
+                            Classes.Active="{Binding IsSelected}"
+                            Command="{Binding $parent[ListBox].((word:WordManagementViewModel)DataContext).ApplyCharFilterCommand}"
+                            CommandParameter="{Binding Char}">
+                        <TextBlock Text="{Binding Char}" />
+                    </Button>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+
+        </ListBox>
+        <Border Margin="10" HorizontalAlignment="Center">
+            <Button Classes="Base" Command="{Binding AddNewWordCommand}">
+                <StackPanel Orientation="Horizontal" Spacing="5">
+                    <PathIcon Data="{StaticResource AddSquareRegular}" Width="20" Height="20" Foreground="White"></PathIcon>
+                    <TextBlock>Ajouter un nouveau mot</TextBlock>
+                </StackPanel>
+            </Button>
+        </Border>
     </StackPanel>
 </UserControl>

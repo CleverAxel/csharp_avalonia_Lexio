@@ -141,8 +141,6 @@
                             </Animation>
                         </Style.Animations>
                     </Style>
-
-
                 </ListBox.Styles>
                 <ListBox.ItemTemplate>
                     <DataTemplate>

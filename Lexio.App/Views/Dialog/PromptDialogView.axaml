@@ -44,7 +44,7 @@
                    FontWeight="ExtraBold" />
         
         <Border Grid.Row="1">
-            <TextBox Text="{Binding Input}"></TextBox>
+            <TextBox Classes="Base" Text="{Binding Input}"></TextBox>
         </Border>
 
         <StackPanel Margin="0 10 0 0" Grid.Row="2" Orientation="Horizontal"
