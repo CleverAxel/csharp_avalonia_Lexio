@@ -166,7 +166,9 @@
                                                 <Grid ColumnDefinitions="Auto, *, Auto">
                                                     <TextBlock Grid.Column="0" Padding="3 0">• Définitions : </TextBlock>
                                                     <TextBlock Grid.Column="1" FontStyle="Italic" Text="{Binding Definition}"></TextBlock>
-                                                    <Button Grid.Column="2" Classes="Base Edit" CommandParameter="{Binding .}">
+                                                    <Button Grid.Column="2" Classes="Base Edit" 
+                                                            Command="{Binding $parent[ListBox].((traduction:TraductionManagementViewModel)DataContext).EditDefinitionCommand}"
+                                                            CommandParameter="{Binding .}">
                                                         <PathIcon Width="20" Height="20" Foreground="White" Data="{StaticResource EditRegular}" />
                                                     </Button>
                                                 </Grid>

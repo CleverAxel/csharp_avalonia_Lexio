@@ -75,4 +75,12 @@ public class TraductionService {
                 w.SetProperty(x => x.Name, newTrad));
         
     }
+    
+    
+    public async Task EditDefinition(int wordId, string newDef) {
+        await _context.Words.Where(w => w.Id == wordId)
+            .ExecuteUpdateAsync(w => 
+                w.SetProperty(x => x.Definition, newDef));
+        
+    }
 }

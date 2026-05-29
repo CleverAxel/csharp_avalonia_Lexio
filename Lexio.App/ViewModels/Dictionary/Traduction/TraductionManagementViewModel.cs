@@ -91,4 +91,20 @@ public partial class TraductionManagementViewModel : ViewModelBase {
         });
             
     }
+    
+    
+        
+    [RelayCommand]
+    public async Task EditDefinitionAsync(WordViewModel wordViewModel) {
+        string? newDef = await _dialogService.ShowPromptAsync($"Modification de la définition du mot :\n{wordViewModel.Name}", "");
+        if(string.IsNullOrWhiteSpace(newDef))
+            return;
+        
+        _ = Task.Run(async () => {
+            await _traductionService.EditWord(wordViewModel.Id, newDef);
+            TraductionList.First(w => w.TargetWords.Contains(wordViewModel))
+                .TargetWords.First(w => w.Id == wordViewModel.Id).Definition = newDef;
+        });
+            
+    }
 }
