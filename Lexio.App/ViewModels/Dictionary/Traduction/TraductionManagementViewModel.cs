@@ -19,7 +19,7 @@ public partial class TraductionManagementViewModel : ViewModelBase {
     private DialogService _dialogService;
 
     private TraductionService _traductionService;
-    private char _selectedChar = 'O';
+    private char _selectedChar = 'A';
     public ObservableCollection<FilterCharViewModel> FilterChars {
         get;
         set => SetProperty(ref field, value);
@@ -36,7 +36,7 @@ public partial class TraductionManagementViewModel : ViewModelBase {
         _traductionService = traductionService;
         UpdateUiFilterChar(_selectedChar);
         _ = Task.Run(async () => {
-            TraductionList = new ObservableCollection<TraductionViewModel>(await _traductionService.GetWordListStartingBy(_selectedChar.ToString()));
+            TraductionList = new ObservableCollection<TraductionViewModel>(await _traductionService.GetWordListStartingBy(_selectedChar.ToString(), LanguageId));
         });
     }
     
@@ -54,6 +54,9 @@ public partial class TraductionManagementViewModel : ViewModelBase {
             return;
         
         UpdateUiFilterChar(c);
+        _ = Task.Run(async () => {
+            TraductionList = new ObservableCollection<TraductionViewModel>(await _traductionService.GetWordListStartingBy(_selectedChar.ToString(), LanguageId));
+        });
     }
 
     [RelayCommand]

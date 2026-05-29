@@ -27,7 +27,7 @@
         </Style>
     </UserControl.Styles>
 
-    <Grid RowDefinitions="Auto, Auto">
+    <Grid RowDefinitions="Auto, *">
         <ListBox ItemsSource="{Binding FilterChars}"
                  Background="Transparent"
                  HorizontalAlignment="Center">
