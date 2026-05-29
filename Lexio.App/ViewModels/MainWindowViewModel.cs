@@ -17,7 +17,6 @@ public partial class MainWindowViewModel : ViewModelBase {
     private ObservableObject _currentPage;
 
     private ObservableCollection<BreadcrumbItem> _breadcrumbItems = new ObservableCollection<BreadcrumbItem>();
-
     public ObservableCollection<BreadcrumbItem> Breadcrumbs {
         get => _breadcrumbItems;
         set => SetProperty(ref _breadcrumbItems, value);
@@ -75,7 +74,9 @@ public partial class MainWindowViewModel : ViewModelBase {
             RoutingService.DictionaryBreadcrumb(),
             RoutingService.TraductionManagementBreadcrumb(languageViewModel.Flag, languageViewModel.Name, true)
         );
-        CurrentPage = App.ServiceProvider.GetRequiredService<TraductionManagementViewModel>();
+        var vm = App.ServiceProvider.GetRequiredService<TraductionManagementViewModel>();
+        vm.LanguageCode = languageViewModel.Code;
+        CurrentPage = vm;
     }
     
 }

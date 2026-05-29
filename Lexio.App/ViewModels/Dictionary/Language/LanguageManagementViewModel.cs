@@ -70,7 +70,7 @@ public partial class LanguageManagementViewModel : ViewModelBase {
         if (SelectedLanguage is null)
             return;
 
-        var lang = AddedLanguageModels.FirstOrDefault((t) => t.Id == SelectedLanguage.Id);
+        var lang = AddedLanguageModels.FirstOrDefault((t) => t.Name == SelectedLanguage.Name);
         if (lang is not null) {
             WeakReferenceMessenger.Default.Send(lang);
             ShowLanguageAlreadyExist = true;
