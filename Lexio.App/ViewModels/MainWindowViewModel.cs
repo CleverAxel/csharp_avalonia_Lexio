@@ -76,6 +76,7 @@ public partial class MainWindowViewModel : ViewModelBase {
         );
         var vm = App.ServiceProvider.GetRequiredService<TraductionManagementViewModel>();
         vm.LanguageCode = languageViewModel.Code;
+        vm.LanguageId = languageViewModel.Id;
         CurrentPage = vm;
     }
     

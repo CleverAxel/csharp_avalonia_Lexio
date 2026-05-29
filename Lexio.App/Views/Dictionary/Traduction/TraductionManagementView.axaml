@@ -68,8 +68,9 @@
         </ListBox>
         
         <ScrollViewer Grid.Row="1" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto">
-            <!-- <ListBox Name="ListLanguages" x:Name="ListLanguages" Padding="0 10"
-                     ItemsSource="{Binding WordList}"
+            
+            <ListBox Name="ListLanguages" x:Name="ListLanguages" Padding="0 10"
+                     ItemsSource="{Binding TraductionList}"
                      Background="Transparent">
                 <ListBox.Styles>
                     <Style Selector="ListBoxItem">
@@ -113,40 +114,71 @@
                 </ListBox.Styles>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Grid ColumnDefinitions="Auto, *">
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="8">
-                                <TextBlock Text="{Binding Name}" />
-                            </StackPanel>
-                            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="5"
-                                        HorizontalAlignment="Right">
-                                <Button
-                                    Classes="Base Edit"
-                                    Command="{Binding $parent[ListBox].((word:WordManagementViewModel)DataContext).EditWordCommand}"
-                                    CommandParameter="{Binding .}">
-                                    <PathIcon
-                                        Width="20"
-                                        Height="20"
-                                        Foreground="White"
-                                        Data="{StaticResource EditRegular}">
-                                    </PathIcon>
-                                </Button>
-                                <Button
-                                    Classes="Base Delete"
-                                    Command="{Binding $parent[ListBox].((word:WordManagementViewModel)DataContext).DeleteWordCommand}"
-                                    CommandParameter="{Binding .}">
-                                    <PathIcon
-                                        Width="20"
-                                        Height="20"
-                                        Foreground="White"
-                                        Data="{StaticResource DeleteRegular}">
-                                    </PathIcon>
-                                </Button>
-                            </StackPanel>
+                        <Grid ColumnDefinitions="*, Auto, *">
+                            <Grid ColumnDefinitions="Auto, *" VerticalAlignment="Top">
+                                <!-- Row 0: Source word + action buttons -->
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="8">
+                                    <TextBlock Text="{Binding SourceWord.Name}" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="5"
+                                            HorizontalAlignment="Right">
+                                    <Button
+                                        Classes="Base Edit"
+                                        Command="{Binding $parent[ListBox].((traduction:TraductionManagementViewModel)DataContext).AddNewTraductionCommand}"
+                                        CommandParameter="{Binding SourceWord}">
+                                        <PathIcon Width="20" Height="20" Foreground="White"
+                                                  Data="{StaticResource AddSquareRegular}" />
+                                    </Button>
+    
+                                </StackPanel>
+                            </Grid>
+                            <Border Grid.Column="1" Width="2" Margin="5 0" VerticalAlignment="Stretch" Background="White">
+                                
+                            </Border>
 
+                            <!-- Row 1: Target words nested list -->
+                            <ItemsControl Grid.Column="2"
+                                          VerticalAlignment="Top"
+                                          ItemsSource="{Binding TargetWords}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BorderThickness="0 0 0 2" Padding="0 5" BorderBrush="White">
+                                            <StackPanel>
+                                                <!-- Row 0: Word name + Edit/Delete buttons -->
+                                                <Grid ColumnDefinitions="Auto, *, Auto">
+                                                    <TextBlock Grid.Column="0" Padding="3 0" VerticalAlignment="Center"> • </TextBlock>
+                                                    <TextBlock Grid.Column="1" VerticalAlignment="Center" FontWeight="Bold" Text="{Binding Name}" Margin="0,2" />
+                                                    <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="5" HorizontalAlignment="Right">
+                                                        <Button Classes="Base Edit" 
+                                                                Command="{Binding $parent[ListBox].((traduction:TraductionManagementViewModel)DataContext).EditTraductionCommand}"
+                                                                CommandParameter="{Binding .}">
+                                                            <PathIcon Width="20" Height="20" Foreground="White" Data="{StaticResource EditRegular}" />
+                                                        </Button>
+                                                        <Button Classes="Base Delete" 
+                                                                Command="{Binding $parent[ListBox].((traduction:TraductionManagementViewModel)DataContext).DeleteTraductionCommand}"
+                                                                CommandParameter="{Binding .}">
+                                                            <PathIcon Width="20" Height="20" Foreground="White" Data="{StaticResource DeleteRegular}" />
+                                                        </Button>
+                                                    </StackPanel>
+                                                </Grid>
+
+                                                <!-- Row 1: Definitions -->
+                                                <Grid ColumnDefinitions="Auto, *, Auto">
+                                                    <TextBlock Grid.Column="0" Padding="3 0">• Définitions : </TextBlock>
+                                                    <TextBlock Grid.Column="1" FontStyle="Italic" Text="{Binding Definition}"></TextBlock>
+                                                    <Button Grid.Column="2" Classes="Base Edit" CommandParameter="{Binding .}">
+                                                        <PathIcon Width="20" Height="20" Foreground="White" Data="{StaticResource EditRegular}" />
+                                                    </Button>
+                                                </Grid>
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
-            </ListBox> -->
+            </ListBox>
         </ScrollViewer>
         
     </Grid>
