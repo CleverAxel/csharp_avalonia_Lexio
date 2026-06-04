@@ -6,6 +6,7 @@ using Lexio.App.ViewModels.Dictionary.Language;
 using Lexio.App.ViewModels.Dictionary;
 using Lexio.App.ViewModels.Dictionary.Traduction;
 using Lexio.App.ViewModels.Dictionary.Word;
+using Lexio.App.ViewModels.Serie;
 using Lexio.Core.Database;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -36,5 +37,7 @@ public static class ServiceCollectionExtensions
         collection.AddTransient<LanguageManagementViewModel>();
         collection.AddTransient<WordManagementViewModel>();
         collection.AddTransient<TraductionManagementViewModel>();
+
+        collection.AddTransient<SerieViewModel>();
     }
 }

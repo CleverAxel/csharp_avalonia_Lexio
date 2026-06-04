@@ -59,9 +59,18 @@ public class RoutingService {
         };
     }
 
+    public BreadcrumbItem SerieBreadcrumb(bool active = false) {
+        return new BreadcrumbItem() {
+            Command = GoSerieCommand,
+            Name = "📔Séries",
+            Active = active
+        };
+    }
+
     public IRelayCommand GoHomeCommand { get; set; } = null!;
     public IRelayCommand GoDictionaryCommand { get; set; } = null!;
     public IRelayCommand GoLanguageManagementCommand { get; set; } = null!;
     public IRelayCommand GoWordManagementCommand { get; set; } = null!;
     public IRelayCommand GoTraductionManagementCommand { get; set; } = null!;
+    public IRelayCommand GoSerieCommand { get; set; } = null!;
 }

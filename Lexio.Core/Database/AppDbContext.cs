@@ -8,9 +8,11 @@ public class AppDbContext : DbContext {
     public DbSet<AvailableLanguage> AvailableLanguages { get; set; }
     public DbSet<Word> Words { get; set; }
     public DbSet<WordTranslation> WordTranslations { get; set; }
+    public DbSet<Serie> Series { get; set; }
+    public DbSet<SerieResult> SeriesWords { get; set; }
+    public DbSet<SerieResult> SeriesResults { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
-        
         // Disambiguate the two FKs from WordTranslation → Word
         modelBuilder.Entity<WordTranslation>()
             .HasOne(wt => wt.SourceWord)
@@ -23,28 +25,54 @@ public class AppDbContext : DbContext {
             .WithMany(w => w.TargetTranslations)
             .HasForeignKey(wt => wt.TargetWordId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        // Series → Language
+        modelBuilder.Entity<Serie>()
+            .HasOne(s => s.Language)
+            .WithMany()
+            .HasForeignKey(s => s.LanguageId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // SeriesWord → Series
+        modelBuilder.Entity<SerieWord>()
+            .HasOne(sw => sw.Serie)
+            .WithMany(s => s.SeriesWords)
+            .HasForeignKey(sw => sw.SeriesId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // SeriesWord → Word
+        modelBuilder.Entity<SerieWord>()
+            .HasOne(sw => sw.Word)
+            .WithMany(w => w.SeriesWords)
+            .HasForeignKey(sw => sw.WordId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // SeriesResult → Series
+        modelBuilder.Entity<SerieResult>()
+            .HasOne(sr => sr.Serie)
+            .WithMany(s => s.Results)
+            .HasForeignKey(sr => sr.SeriesId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
-    
+
     protected override void OnConfiguring(DbContextOptionsBuilder options) {
         const string server = "localhost";
         const string database = "lexio";
         const string user = "root";
         const string password = "root";
 
-        const string connectionString = $"Server={server};Database={database};User={user};Password={password};"; 
+        const string connectionString = $"Server={server};Database={database};User={user};Password={password};";
         options.UseMySql(
             connectionString,
             ServerVersion.AutoDetect(connectionString)
-        ).UseSeeding((context, _) => {
-            SeedAvailableLanguages(context);
-        });
+        ).UseSeeding((context, _) => { SeedAvailableLanguages(context); });
     }
 
     private void SeedAvailableLanguages(DbContext ctx) {
         var dbset = ctx.Set<AvailableLanguage>();
-        if(dbset.Any())
+        if (dbset.Any())
             return;
-        
+
         List<AvailableLanguage> availableLanguages = new() {
             new AvailableLanguage { Id = 1, Name = "Afrikaans", Code = "af", Flag = "🇿🇦" },
             new AvailableLanguage { Id = 2, Name = "Albanais", Code = "sq", Flag = "🇦🇱" },
@@ -129,6 +157,7 @@ public class AppDbContext : DbContext {
         foreach (var lng in availableLanguages) {
             dbset.Add(lng);
         }
+
         ctx.SaveChanges();
     }
 }

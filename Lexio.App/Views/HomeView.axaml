@@ -87,7 +87,8 @@
                     </Button.ContentTemplate>
                 </Button>
                 <Button
-                    Classes="NavButton">
+                    Classes="NavButton"
+                    Command="{Binding RoutingService.GoSerieCommand}">
                     <Button.ContentTemplate>
                         <DataTemplate>
                             <Grid RowDefinitions="*, Auto">

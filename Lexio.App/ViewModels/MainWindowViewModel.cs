@@ -8,6 +8,7 @@ using Lexio.App.ViewModels.Dictionary.Language;
 using Lexio.App.ViewModels.Dictionary;
 using Lexio.App.ViewModels.Dictionary.Traduction;
 using Lexio.App.ViewModels.Dictionary.Word;
+using Lexio.App.ViewModels.Serie;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Lexio.App.ViewModels;
@@ -17,6 +18,7 @@ public partial class MainWindowViewModel : ViewModelBase {
     private ObservableObject _currentPage;
 
     private ObservableCollection<BreadcrumbItem> _breadcrumbItems = new ObservableCollection<BreadcrumbItem>();
+
     public ObservableCollection<BreadcrumbItem> Breadcrumbs {
         get => _breadcrumbItems;
         set => SetProperty(ref _breadcrumbItems, value);
@@ -35,12 +37,12 @@ public partial class MainWindowViewModel : ViewModelBase {
         routingService.GoHomeCommand = GoToHomeCommand;
         routingService.GoWordManagementCommand = GoToWordManagementCommand;
         routingService.GoTraductionManagementCommand = GoToTraductionManagementCommand;
+        routingService.GoSerieCommand = GoToSerieCommand;
 
         // TODO Cleanup
         routingService.BreadcrumbChanged += OnBreadcrumbChanged;
 
-        _currentPage = App.ServiceProvider.GetRequiredService<DictionaryViewModel>();
-
+        _currentPage = App.ServiceProvider.GetRequiredService<SerieViewModel>();
     }
 
     private void OnBreadcrumbChanged(IEnumerable<BreadcrumbItem> items) {
@@ -57,13 +59,13 @@ public partial class MainWindowViewModel : ViewModelBase {
     private void GoToDictionary() => CurrentPage = App.ServiceProvider.GetRequiredService<DictionaryViewModel>();
 
     [RelayCommand]
-    private void GoToLanguageManagement(string? query)  {
+    private void GoToLanguageManagement(string? query) {
         Console.WriteLine(query);
         CurrentPage = App.ServiceProvider.GetRequiredService<LanguageManagementViewModel>();
     }
-    
+
     [RelayCommand]
-    private void GoToWordManagement()  {
+    private void GoToWordManagement() {
         CurrentPage = App.ServiceProvider.GetRequiredService<WordManagementViewModel>();
     }
 
@@ -79,5 +81,13 @@ public partial class MainWindowViewModel : ViewModelBase {
         vm.LanguageId = languageViewModel.Id;
         CurrentPage = vm;
     }
-    
+
+    [RelayCommand]
+    private void GoToSerie() {
+        RoutingService.SetPath(
+            RoutingService.HomeBreadcrumb(),
+            RoutingService.SerieBreadcrumb()
+        );
+        CurrentPage = App.ServiceProvider.GetRequiredService<SerieViewModel>();
+    }
 }

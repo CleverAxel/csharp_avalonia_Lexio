@@ -1,0 +1,78 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Lexio.App.Views.Serie.SerieView"
+             xmlns:serie="clr-namespace:Lexio.App.ViewModels.Serie"
+             xmlns:dictionary="clr-namespace:Lexio.App.ViewModels.Dictionary.Language"
+             x:DataType="serie:SerieViewModel">
+
+    <UserControl.Styles>
+        <Style Selector="Button.Base">
+            <Setter Property="Padding" Value="10"></Setter>
+        </Style>
+        <Style Selector="Button.Edit /template/ ContentPresenter">
+            <Setter Property="Background" Value="{StaticResource InfoColor}" />
+        </Style>
+        <Style Selector="Button.Edit:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="{StaticResource InfoColorHover}" />
+        </Style>
+
+        <Style Selector="Button.Delete /template/ ContentPresenter">
+            <Setter Property="Background" Value="{StaticResource DangerColor}" />
+        </Style>
+        <Style Selector="Button.Delete:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="{StaticResource DangerHoverColor}" />
+        </Style>
+        
+        <Style Selector="ComboBox:focus">
+            <Setter Property="Foreground" Value="Black"></Setter>
+        </Style>
+        <Style Selector="ComboBox">
+            <Setter Property="Background" Value="White"></Setter>
+            <Setter Property="Foreground" Value="{StaticResource BgColor}"></Setter>
+            <Setter Property="FontSize" Value="20"></Setter>
+            <Setter Property="Padding" Value="10"></Setter>
+        </Style>
+        <Style Selector="ComboBox:pressed /template/ Border#Background">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="BorderBrush" Value="White" />
+        </Style>
+        
+    </UserControl.Styles>
+
+    <Grid RowDefinitions="Auto, *">
+        <Grid ColumnDefinitions="Auto">
+            <Border Padding="10" BorderBrush="White" BorderThickness="1">
+                <StackPanel Orientation="Vertical" Spacing="5">
+                    <TextBlock FontSize="16" FontWeight="Bold">Ajouter une nouvelle série :</TextBlock>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBox Width="300" Classes="Base" x:Name="NewSerieTextInput" VerticalAlignment="Center" Name="NewSerieTextInput"
+                                 Text="{Binding NewSerieName}" />
+                        <ComboBox Width="240"
+                                  ItemsSource="{Binding AvailableLanguageModels}"
+                                  SelectedItem="{Binding SelectedSerieLanguage}"
+                                  PlaceholderText="Langue...">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate DataType="{x:Type dictionary:LanguageViewModel}">
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <TextBlock Foreground="Black" Text="{Binding Flag}" />
+                                        <TextBlock Foreground="Black" Text="{Binding Name}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                    <Button Classes="Base" HorizontalAlignment="Stretch" Command="{Binding AddNewSerieCommand}">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+                            <TextBlock>Ajouter</TextBlock>
+                            <PathIcon Width="20" Height="35" Foreground="White"
+                                      Data="{StaticResource AddSquareRegular}" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>
