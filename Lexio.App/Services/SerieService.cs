@@ -97,4 +97,40 @@ public class SerieService {
 
         return stuff;
     }
+
+    public async Task<List<TraductionViewModel>> RetrieveTranslationFromSerieId(int serieId) {
+        var serieWordIds = await _context.SeriesWords
+            .Where(sw => sw.SeriesId == serieId)
+            .Select(sw => sw.WordId)
+            .ToListAsync();
+
+        var sourceWords = await _context.WordTranslations
+            .Where(wt => serieWordIds.Contains(wt.TargetWordId))
+            .Select(wt => wt.SourceWordId)
+            .Distinct()
+            .ToListAsync();
+
+        var stuff = await _context.Words
+            .Where(w => sourceWords.Contains(w.Id))
+            .Select(w => new TraductionViewModel
+            {
+                SourceWord = new WordViewModel
+                {
+                    Id = w.Id,
+                    Name = w.Name,
+                    Definition = w.Definition
+                },
+                TargetWords = new ObservableCollection<WordViewModel>(
+                    w.SourceTranslations.Select(t => new WordViewModel
+                    {
+                        Id = t.TargetWord.Id,
+                        Name = t.TargetWord.Name,
+                        Definition = t.TargetWord.Definition
+                    }).ToList()
+                )
+            })
+            .ToListAsync();
+
+        return stuff;
+    }
 }
