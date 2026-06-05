@@ -14,7 +14,7 @@ namespace Lexio.App.ViewModels.Dictionary.Traduction;
 
 public partial class TraductionManagementViewModel : ViewModelBase {
 
-    public string LanguageCode { get; set; }
+    public string LanguageCode { get; set; } = string.Empty;
     public int LanguageId { get; set; }
     private DialogService _dialogService;
 

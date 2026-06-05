@@ -26,6 +26,7 @@ public static class ServiceCollectionExtensions
         collection.AddTransient<LanguageService>();
         collection.AddTransient<WordService>();
         collection.AddTransient<TraductionService>();
+        collection.AddTransient<SerieService>();
     }
 
     private static void AddViewModels(IServiceCollection collection) {
@@ -39,5 +40,6 @@ public static class ServiceCollectionExtensions
         collection.AddTransient<TraductionManagementViewModel>();
 
         collection.AddTransient<SerieViewModel>();
+        collection.AddTransient<SerieManagementViewModel>();
     }
 }

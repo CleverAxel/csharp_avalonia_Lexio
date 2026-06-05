@@ -9,7 +9,7 @@ public class AppDbContext : DbContext {
     public DbSet<Word> Words { get; set; }
     public DbSet<WordTranslation> WordTranslations { get; set; }
     public DbSet<Serie> Series { get; set; }
-    public DbSet<SerieResult> SeriesWords { get; set; }
+    public DbSet<SerieWord> SeriesWords { get; set; }
     public DbSet<SerieResult> SeriesResults { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {

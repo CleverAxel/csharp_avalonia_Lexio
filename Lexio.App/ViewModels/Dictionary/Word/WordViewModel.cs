@@ -11,4 +11,7 @@ public partial class WordViewModel : ViewModelBase {
     
     [ObservableProperty]
     private string _definition = null!;
+
+    [ObservableProperty]
+    private bool _isAdded = false;
 }

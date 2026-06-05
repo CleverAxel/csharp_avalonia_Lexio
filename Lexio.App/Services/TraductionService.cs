@@ -17,10 +17,14 @@ public class TraductionService {
         _context = context;
     }
     
-    public async Task<List<TraductionViewModel>> GetWordListStartingBy(string c, int targetLanguageId)
-    {
+    public async Task<List<TraductionViewModel>> GetWordListStartingBy(string c, int targetLanguageId, int serieId = 0) {
+        int? languageFrenchId = (await _context.Languages.FirstOrDefaultAsync(l => l.Code == "fr"))?.Id;
+
+        if (languageFrenchId is null)
+            throw new Exception("The french language is not added in the added language");
+        
         var stuff = await _context.Words
-            .Where(w => EF.Functions.Like(w.Name, $"{c}%") && w.LanguageId == 12)
+            .Where(w => EF.Functions.Like(w.Name, $"{c}%") && w.LanguageId == languageFrenchId)
             .OrderBy(w => w.Name)
             .Select(w => new TraductionViewModel
             {
@@ -37,7 +41,8 @@ public class TraductionService {
                         {
                             Id = s.TargetWord.Id,
                             Name = s.TargetWord.Name,
-                            Definition = s.TargetWord.Definition
+                            Definition = s.TargetWord.Definition,
+                            IsAdded = s.TargetWord.SeriesWords.FirstOrDefault(sw => sw.SeriesId == serieId) != null
                         })
                         .ToList()
                 )

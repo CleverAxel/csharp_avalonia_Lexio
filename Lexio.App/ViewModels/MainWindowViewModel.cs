@@ -38,11 +38,12 @@ public partial class MainWindowViewModel : ViewModelBase {
         routingService.GoWordManagementCommand = GoToWordManagementCommand;
         routingService.GoTraductionManagementCommand = GoToTraductionManagementCommand;
         routingService.GoSerieCommand = GoToSerieCommand;
+        routingService.GoSerieManagementCommand = GoToSerieManagementCommand;
 
         // TODO Cleanup
         routingService.BreadcrumbChanged += OnBreadcrumbChanged;
 
-        _currentPage = App.ServiceProvider.GetRequiredService<SerieViewModel>();
+        _currentPage = App.ServiceProvider.GetRequiredService<HomeViewModel>();
     }
 
     private void OnBreadcrumbChanged(IEnumerable<BreadcrumbItem> items) {
@@ -89,5 +90,18 @@ public partial class MainWindowViewModel : ViewModelBase {
             RoutingService.SerieBreadcrumb()
         );
         CurrentPage = App.ServiceProvider.GetRequiredService<SerieViewModel>();
+    }
+
+    [RelayCommand]
+    private void GoToSerieManagement(SerieDetailViewModel serieDetailViewModel) {
+        RoutingService.SetPath(
+            RoutingService.HomeBreadcrumb(),
+            RoutingService.SerieBreadcrumb(),
+            RoutingService.SerieManagementBreadcrumb(serieDetailViewModel.LanguageFlag, serieDetailViewModel.Name, true)
+        );
+        var vm = App.ServiceProvider.GetRequiredService<SerieManagementViewModel>();
+        vm.LanguageId = serieDetailViewModel.LanguageId;
+        vm.SerieId = serieDetailViewModel.Id;
+        CurrentPage = vm;
     }
 }
