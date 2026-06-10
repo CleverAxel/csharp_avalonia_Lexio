@@ -124,7 +124,7 @@
                                                 
                                                 <Grid ColumnDefinitions="Auto, *, Auto">
                                                     <TextBlock Grid.Column="0" Padding="3 0">• Définitions : </TextBlock>
-                                                    <TextBlock Grid.Column="1" FontStyle="Italic" Text="{Binding Definition}"></TextBlock>
+                                                    <TextBlock Grid.Column="1" TextWrapping="Wrap" FontStyle="Italic" Text="{Binding Definition}"></TextBlock>
                                                 </Grid>
                                                 
                                             </StackPanel>

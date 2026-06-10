@@ -104,7 +104,7 @@ public partial class TraductionManagementViewModel : ViewModelBase {
             return;
         
         _ = Task.Run(async () => {
-            await _traductionService.EditWord(wordViewModel.Id, newDef);
+            await _traductionService.EditDefinition(wordViewModel.Id, newDef);
             TraductionList.First(w => w.TargetWords.Contains(wordViewModel))
                 .TargetWords.First(w => w.Id == wordViewModel.Id).Definition = newDef;
         });
