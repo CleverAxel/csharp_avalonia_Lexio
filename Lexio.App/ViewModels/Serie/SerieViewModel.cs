@@ -72,4 +72,16 @@ public partial class SerieViewModel : ViewModelBase {
     public void Test(SerieDetailViewModel serieDetailViewModel) {
         RoutingService.GoSerieManagementCommand.Execute(serieDetailViewModel);
     }
+
+    [RelayCommand]
+    public void Play(SerieDetailViewModel serieDetailViewModel) {
+        RoutingService.GoSeriePlayCommand.Execute(serieDetailViewModel);
+    }
+
+    [RelayCommand]
+    public async Task Delete(SerieDetailViewModel serieDetailViewModel) {
+        await _serieService.DeleteAsync(serieDetailViewModel.Id);
+        AvailableSeries =
+            new ObservableCollection<SerieDetailViewModel>(await _serieService.GetSeriesAvailablesAsync());
+    }
 }

@@ -50,6 +50,10 @@ public class SerieService {
         return true;
     }
 
+    public async Task DeleteAsync(int serieId) {
+        await _context.Series.Where(s => s.Id == serieId).ExecuteDeleteAsync();
+    }
+
     public async Task AddNewWordToSerie(int wordId, int serieId) {
         await _context.SeriesWords.AddAsync(new SerieWord() {
             WordId = wordId,
@@ -125,7 +129,8 @@ public class SerieService {
                     {
                         Id = t.TargetWord.Id,
                         Name = t.TargetWord.Name,
-                        Definition = t.TargetWord.Definition
+                        Definition = t.TargetWord.Definition,
+                        IsAdded = t.TargetWord.SeriesWords.FirstOrDefault(sw => sw.SeriesId == serieId) != null
                     }).ToList()
                 )
             })

@@ -74,6 +74,14 @@ public class RoutingService {
             Active = active
         };
     }
+    
+    public BreadcrumbItem SeriePlayBreadcrumb(string serieName, string flag, bool active = false) {
+        return new BreadcrumbItem() {
+            Command = GoSeriePlayCommand,
+            Name = $"🎮Jouer série : '{flag}{serieName}'",
+            Active = active
+        };
+    }
 
     public IRelayCommand GoHomeCommand { get; set; } = null!;
     public IRelayCommand GoDictionaryCommand { get; set; } = null!;
@@ -82,4 +90,5 @@ public class RoutingService {
     public IRelayCommand GoTraductionManagementCommand { get; set; } = null!;
     public IRelayCommand GoSerieCommand { get; set; } = null!;
     public IRelayCommand GoSerieManagementCommand { get; set; } = null!;
+    public IRelayCommand GoSeriePlayCommand { get; set; } = null!;
 }

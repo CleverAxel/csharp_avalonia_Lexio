@@ -1,0 +1,93 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:serie="clr-namespace:Lexio.App.ViewModels.Serie"
+             x:DataType="serie:SeriePlayViewModel"
+             x:Class="Lexio.App.Views.Serie.SeriePlayView">
+    <UserControl.Styles>
+        <Style Selector="RadioButton">
+
+            <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="RecognizesAccessKey" Value="True" />
+            </Style>
+
+            <Style Selector="^">
+                <Setter Property="Foreground" Value="White" />
+            </Style>
+
+            <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="RecognizesAccessKey" Value="True" />
+            </Style>
+
+            <!--  PointerOver State  -->
+            
+            <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Foreground" Value="White" />
+            </Style>
+            <Style Selector="^:pointerover /template/ Ellipse#OuterEllipse">
+                <Setter Property="Stroke" Value="White" />
+                <Setter Property="Fill" Value="White" />
+            </Style>
+            <Style Selector="^:pointerover /template/ Ellipse#CheckOuterEllipse">
+                <Setter Property="Stroke" Value="SteelBlue" />
+                <Setter Property="Fill" Value="SteelBlue" />
+            </Style>
+            <Style Selector="^:pointerover /template/ Ellipse#CheckGlyph">
+                <Setter Property="Stroke" Value="White" />
+                <Setter Property="Fill" Value="White" />
+            </Style>
+
+
+            <!--  Pressed State  -->
+            <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Foreground" Value="White" />
+            </Style>
+            <Style Selector="^:pressed /template/ Border#RootBorder">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderBrush" Value="Transparent" />
+            </Style>
+            <Style Selector="^:pressed /template/ Ellipse#OuterEllipse">
+                <Setter Property="Stroke" Value="White" />
+                <Setter Property="Fill" Value="White" />
+            </Style>
+            <Style Selector="^:pressed /template/ Ellipse#CheckOuterEllipse">
+                <Setter Property="Stroke" Value="SteelBlue" />
+                <Setter Property="Fill" Value="SteelBlue" />
+            </Style>
+            <Style Selector="^:pressed /template/ Ellipse#CheckGlyph">
+                <Setter Property="Stroke" Value="White" />
+                <Setter Property="Fill" Value="White" />
+            </Style>
+            
+            <!--  Checked State  -->
+            <Style Selector="^:checked /template/ Ellipse#CheckGlyph">
+                <Setter Property="Opacity" Value="1" />
+            </Style>
+
+            <Style Selector="^:checked /template/ Ellipse#OuterEllipse">
+                <Setter Property="Opacity" Value="0" />
+            </Style>
+
+            <Style Selector="^:checked /template/ Ellipse#CheckOuterEllipse">
+                <Setter Property="Opacity" Value="1" />
+            </Style>
+        </Style>
+    </UserControl.Styles>
+    <StackPanel Margin="20">
+        <TextBlock>Vous allez jouer la série : </TextBlock>
+        <TextBlock>TEST</TextBlock>
+        <TextBlock>en</TextBlock>
+        <TextBlock>Italien</TextBlock>
+        <TextBlock Margin="0 10 0 5">Sens de la traduction :</TextBlock>
+        <RadioButton GroupName="TraductionWay"
+                     Content="First Option" />
+
+        <RadioButton GroupName="TraductionWay"
+                     Content="Second Option" />
+
+        <RadioButton GroupName="TraductionWay"
+                     Content="Third Option" />
+    </StackPanel>
+</UserControl>

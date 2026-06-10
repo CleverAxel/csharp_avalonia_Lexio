@@ -123,19 +123,19 @@
                                     <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right"
                                                 Spacing="5">
                                         <Button Classes="Base Play"
-                                                Command="{Binding $parent[ListBox].((serie:SerieViewModel)DataContext).Test}"
+                                                Command="{Binding $parent[ListBox].((serie:SerieViewModel)DataContext).PlayCommand}"
                                                 CommandParameter="{Binding .}">
                                             <PathIcon Width="15" Height="15" Foreground="White"
                                                       Data="{StaticResource PlayRegular}" />
                                         </Button>
                                         <Button Classes="Base Edit"
-                                                Command="{Binding $parent[ListBox].((serie:SerieViewModel)DataContext).Test}"
+                                                Command="{Binding $parent[ListBox].((serie:SerieViewModel)DataContext).TestCommand}"
                                                 CommandParameter="{Binding .}">
                                             <PathIcon Width="15" Height="15" Foreground="White"
                                                       Data="{StaticResource EditRegular}" />
                                         </Button>
                                         <Button Classes="Base Delete"
-                                                Command="{Binding $parent[ListBox].((serie:SerieViewModel)DataContext).Test}"
+                                                Command="{Binding $parent[ListBox].((serie:SerieViewModel)DataContext).DeleteCommand}"
                                                 CommandParameter="{Binding .}">
                                             <PathIcon Width="15" Height="15" Foreground="White"
                                                       Data="{StaticResource DeleteRegular}" />

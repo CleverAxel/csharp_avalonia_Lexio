@@ -41,5 +41,6 @@ public static class ServiceCollectionExtensions
 
         collection.AddTransient<SerieViewModel>();
         collection.AddTransient<SerieManagementViewModel>();
+        collection.AddTransient<SeriePlayViewModel>();
     }
 }
