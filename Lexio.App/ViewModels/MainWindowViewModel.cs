@@ -44,7 +44,7 @@ public partial class MainWindowViewModel : ViewModelBase {
         // TODO Cleanup
         routingService.BreadcrumbChanged += OnBreadcrumbChanged;
 
-        _currentPage = App.ServiceProvider.GetRequiredService<HomeViewModel>();
+        _currentPage = App.ServiceProvider.GetRequiredService<SerieViewModel>();
     }
 
     private void OnBreadcrumbChanged(IEnumerable<BreadcrumbItem> items) {
@@ -107,7 +107,10 @@ public partial class MainWindowViewModel : ViewModelBase {
     }
 
     [RelayCommand]
-    private void GoToSeriePlay(SerieDetailViewModel serieDetailViewModel) {
+    private void GoToSeriePlay(SerieDetailViewModel? serieDetailViewModel) {
+        if(serieDetailViewModel is null)
+            return;
+        
         RoutingService.SetPath(
             RoutingService.HomeBreadcrumb(),
             RoutingService.SerieBreadcrumb(),

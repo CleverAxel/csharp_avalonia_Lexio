@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
              xmlns:serie="clr-namespace:Lexio.App.ViewModels.Serie"
              x:DataType="serie:SeriePlayViewModel"
              x:Class="Lexio.App.Views.Serie.SeriePlayView">
@@ -75,30 +75,87 @@
             </Style>
         </Style>
     </UserControl.Styles>
-    <StackPanel Margin="20" HorizontalAlignment="Center">
-        <TextBlock TextAlignment="Center" FontSize="20" FontWeight="Black">Vous allez jouer la série : </TextBlock>
-        <TextBlock HorizontalAlignment="Center" FontStyle="Italic" Text="{Binding SerieDetailViewModel.Name}"></TextBlock>
-        <TextBlock HorizontalAlignment="Center" FontSize="18" Text="{Binding SerieLanguage}"></TextBlock>
+    <Grid RowDefinitions="Auto, Auto">
+        <StackPanel Margin="20" HorizontalAlignment="Center" IsVisible="{Binding IsPlayMenuVisible}">
+            <TextBlock TextAlignment="Center" FontSize="20" FontWeight="Black">Vous allez jouer la série : </TextBlock>
+            <TextBlock HorizontalAlignment="Center" FontStyle="Italic" Text="{Binding SerieDetailViewModel.Name}"></TextBlock>
+            <TextBlock HorizontalAlignment="Center" FontSize="18" Text="{Binding SerieLanguage}"></TextBlock>
 
-        <Border BorderBrush="White" BorderThickness="1" Margin="0 10"></Border>
-
-        <TextBlock FontStyle="Italic" FontWeight="Black" TextDecorations="Underline" HorizontalAlignment="Center" Margin="0 10 0 5">Sens de la traduction :</TextBlock>
-        <RadioButton HorizontalAlignment="Center" GroupName="TraductionWay"
-                     Content="{Binding TraductionWayFromFrench}" />
-
-        <RadioButton HorizontalAlignment="Center" GroupName="TraductionWay"
-                     Content="{Binding  TraductionWayFromLanguage}" />
-
-
-        <StackPanel>
             <Border BorderBrush="White" BorderThickness="1" Margin="0 10"></Border>
 
-            <TextBlock FontStyle="Italic" FontWeight="Black" TextDecorations="Underline" HorizontalAlignment="Center" Margin="0 10 0 5">Difficulté :</TextBlock>
-            <RadioButton HorizontalAlignment="Center" GroupName="TraductionDifficulty"
-                         Content="Je m'en fous du contexte" />
-            <RadioButton HorizontalAlignment="Center" GroupName="TraductionDifficulty"
-                         Content="For sure" />
+            <TextBlock FontStyle="Italic" FontWeight="Black" TextDecorations="Underline" HorizontalAlignment="Center"
+                       Margin="0 10 0 5">
+                Sens de la traduction :
+            </TextBlock>
+            <RadioButton HorizontalAlignment="Center" GroupName="TraductionWay"
+                         Content="{Binding TraductionWayFromFrench}"
+                         IsChecked="{Binding FromFrench}" />
+
+            <RadioButton HorizontalAlignment="Center" GroupName="TraductionWay"
+                         Content="{Binding  TraductionWayFromLanguage}"
+                         IsChecked="{Binding FromLanguage}" />
+
+
+            <StackPanel IsVisible="{Binding FromFrench}">
+                <Border BorderBrush="White" BorderThickness="1" Margin="0 10"></Border>
+
+                <TextBlock FontStyle="Italic" FontWeight="Black" TextDecorations="Underline"
+                           HorizontalAlignment="Center" Margin="0 10 0 5">
+                    Difficulté :
+                </TextBlock>
+                <RadioButton HorizontalAlignment="Center" GroupName="TraductionDifficulty"
+                             Content="{Binding AnyTraductionLabel}"
+                             IsChecked="{Binding CanBeAnyTraduction}" />
+                <RadioButton HorizontalAlignment="Center" GroupName="TraductionDifficulty"
+                             Content="{Binding TraductionMustMatchDefinitionLabel}"
+                             IsChecked="{Binding TraductionMustMatchDefinition}" />
+            </StackPanel>
+            <Button Margin="0  20 0 10" HorizontalAlignment="Center" Classes="Base" Command="{Binding StartPlayCommand}">Démarrer le test</Button>
         </StackPanel>
-        <Button Margin="0  20 0 10" HorizontalAlignment="Center" Classes="Base">Démarrer le test</Button>
-    </StackPanel>
+        <StackPanel Grid.Row="1" IsVisible="{Binding IsQuizzVisible}">
+            <Grid ColumnDefinitions="Auto, Auto" RowSpacing="2" ColumnSpacing="2" RowDefinitions="Auto, Auto, Auto, Auto">
+                <TextBlock Grid.Row="0" Grid.Column="0" FontSize="14">📑Nombre de mot(s) total à traduire :</TextBlock>
+                <TextBlock Grid.Row="0" Grid.Column="1" FontSize="14" FontWeight="Bold" Classes="PrimaryFont" Text="{Binding TotalWordsCount}"></TextBlock>
+                
+                <TextBlock Grid.Row="1" Grid.Column="0" FontSize="14">🔖Nombre de mot(s) restant(s) à traduire :</TextBlock>
+                <TextBlock Grid.Row="1" Grid.Column="1" FontSize="14" FontWeight="Bold" Classes="PrimaryFont" Text="{Binding RemainingWordCount}"></TextBlock>
+                
+                <TextBlock Grid.Row="2" Grid.Column="0" FontSize="14" >🟢Nombre de mot(s) correctement traduit(s) :</TextBlock>
+                <TextBlock Grid.Row="2" Grid.Column="1" FontSize="14" FontWeight="Bold" Classes="PrimaryFont" Text="{Binding CorrectTranslatedWordCount}"></TextBlock>
+                                
+                <TextBlock Grid.Row="3" Grid.Column="0" FontSize="14" >❌Nombre de mot(s) incorrectement traduit(s) :</TextBlock>
+                <TextBlock Grid.Row="3" Grid.Column="1" FontSize="14" FontWeight="Bold" Classes="PrimaryFont" Text="{Binding IncorrectTranslatedWordCount}"></TextBlock>
+            </Grid>
+            <StackPanel Margin="0 20 0 0">
+                <TextBlock HorizontalAlignment="Center" FontWeight="Bold" FontSize="24">Donnez la traduction de ce mot :</TextBlock>
+                <Border HorizontalAlignment="Stretch" BorderBrush="White" BorderThickness="1" Margin="0 10"></Border>
+                <TextBlock HorizontalAlignment="Center" FontSize="20" FontStyle="Italic" Text="{Binding WordToTranslate.Name}"></TextBlock>
+                <StackPanel IsVisible="False">
+                    <Border HorizontalAlignment="Stretch" BorderBrush="White" BorderThickness="1" Margin="0 10"></Border>
+                    <TextBlock FontSize="24" HorizontalAlignment="Center" FontWeight="Bold" Foreground="{StaticResource SuccessColor}">CORRECT 🥳</TextBlock>
+                    <Border Background="White" Padding="10" HorizontalAlignment="Center" CornerRadius="10">
+                        <TextBlock Foreground="Black">Test</TextBlock>
+                    </Border>
+                </StackPanel>
+                <StackPanel IsVisible="False">
+                    <Border HorizontalAlignment="Stretch" BorderBrush="White" BorderThickness="1" Margin="0 10"></Border>
+                    <TextBlock FontSize="24" HorizontalAlignment="Center" FontWeight="Bold" Foreground="{StaticResource DangerColor}">INCORRECT 😡</TextBlock>
+                    <Border Background="White" Padding="10" HorizontalAlignment="Center" CornerRadius="10">
+                        <TextBlock Foreground="Black">Test</TextBlock>
+                    </Border>
+                </StackPanel>
+                <Border HorizontalAlignment="Stretch" BorderBrush="White" BorderThickness="1" Margin="0 10"></Border>
+                <TextBlock HorizontalAlignment="Center" FontWeight="Bold">Définition :</TextBlock>
+                <TextBlock HorizontalAlignment="Center" FontStyle="Italic" TextWrapping="Wrap" Text="{Binding DefinitionOfWord}"></TextBlock>
+                
+                <TextBlock HorizontalAlignment="Center" Margin="0 30 0 0" Text="{Binding LabelAnswer}"></TextBlock>
+                <TextBox Classes="Base" Margin="10" TextAlignment="Center" Foreground="Black"></TextBox>
+                <Button Classes="Base" HorizontalAlignment="Stretch">
+                    <TextBlock HorizontalAlignment="Center">Soumettre votre réponse</TextBlock>
+                </Button>
+                
+                <Button Classes="Base" Margin="0 30 0 0" HorizontalAlignment="Right" IsEnabled="False">Suivant</Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
 </UserControl>
