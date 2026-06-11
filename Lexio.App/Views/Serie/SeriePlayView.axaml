@@ -150,11 +150,11 @@
                 
                 <TextBlock HorizontalAlignment="Center" Margin="0 30 0 0" Text="{Binding LabelAnswer}"></TextBlock>
                 <TextBox Text="{Binding Answer}" Classes="Base" Margin="10" TextAlignment="Center" Foreground="Black"></TextBox>
-                <Button Command="{Binding SubmitAnswerCommand}" Classes="Base" HorizontalAlignment="Stretch">
+                <Button IsEnabled="{Binding SubmitButtonEnabled}" Command="{Binding SubmitAnswerCommand}" Classes="Base" HorizontalAlignment="Stretch">
                     <TextBlock HorizontalAlignment="Center">Soumettre votre réponse</TextBlock>
                 </Button>
                 
-                <Button Classes="Base" Margin="0 30 0 0" HorizontalAlignment="Right" IsEnabled="False">Suivant</Button>
+                <Button Classes="Base" Margin="0 30 0 0" HorizontalAlignment="Right" IsEnabled="{Binding NextButtonEnabled}">Suivant</Button>
             </StackPanel>
         </StackPanel>
     </Grid>

@@ -16,6 +16,7 @@ namespace Lexio.App.ViewModels.Serie;
 public partial class SeriePlayViewModel : ViewModelBase {
     public SerieDetailViewModel SerieDetailViewModel { get; set; } = null!;
     private List<TraductionViewModel> _traductionViewModels;
+    private List<TraductionViewModel> _copyTraductions;
     private List<TraductionViewModel> _traductionViewModelsNotCorrectlyAnswered = new List<TraductionViewModel>();
     private RoutingService _routingService;
     private SerieService _serieService;
@@ -83,6 +84,12 @@ public partial class SeriePlayViewModel : ViewModelBase {
     [ObservableProperty]
     private bool _isQuizzVisible = false;
 
+    [ObservableProperty]
+    private bool _submitButtonEnabled = true;
+
+    [ObservableProperty]
+    private bool _nextButtonEnabled = false;
+
 
     private WordViewModel _currentSource;
     private WordViewModel _currentTarget;
@@ -99,7 +106,8 @@ public partial class SeriePlayViewModel : ViewModelBase {
             TraductionWayFromFrench = $"Traduire de français en {SerieDetailViewModel.LanguageName.ToLower()}";
 
             _traductionViewModels = await serieService.RetrieveTranslationFromSerieId(SerieDetailViewModel.Id);
-
+            _copyTraductions = _traductionViewModels;
+            
             _countWithDefinition = _traductionViewModels
                 .Select(t => t.TargetWords.Count(w => w.IsAdded))
                 .Sum();
@@ -157,7 +165,10 @@ public partial class SeriePlayViewModel : ViewModelBase {
             // donne un mot français à traduire en anglais
             WordToTranslate = traduction.SourceWord;
             if (CanBeAnyTraduction) {
-                var definitions = traduction.TargetWords.Select(t => t.Definition);
+                var definitions = 
+                    _copyTraductions
+                        .First(t => t.SourceWord.Id == traduction.SourceWord.Id).TargetWords
+                        .Select(t => t.Definition);
                 DefinitionOfWord = string.Join("\n", definitions);
             }
             else {
@@ -176,22 +187,44 @@ public partial class SeriePlayViewModel : ViewModelBase {
         IsQuizzVisible = !IsQuizzVisible;
     }
 
+    private void ToggleSubmitNextButton() {
+        NextButtonEnabled = !NextButtonEnabled;
+        SubmitButtonEnabled = !SubmitButtonEnabled;
+    }
+
     [RelayCommand]
     private void SubmitAnswer() {
-        if (FromLanguage) { //donne un mot anglais à traduire en français
+        if(string.IsNullOrWhiteSpace(Answer))
+            return;
+
+        bool hasAnsweredCorrectly = true;
+        
+        if (FromLanguage) {
+            //donne un mot anglais à traduire en français
             if (Answer.TrimAndReduce().ToLower() == _currentSource.Name.TrimAndReduce().ToLower()) {
                 Console.WriteLine("bonne réponse yay 1");
 
-                var trad = _traductionViewModels
+                var tradRemove = _traductionViewModels
                     .First(t => t.SourceWord.Id == _currentSource.Id);
 
-                trad.TargetWords.Remove(_currentTarget);
-                if (trad.TargetWords.Count == 0) {
-                    _traductionViewModels.Remove(trad);
+                tradRemove.TargetWords.Remove(_currentTarget);
+                if (tradRemove.TargetWords.Count == 0) {
+                    _traductionViewModels.Remove(tradRemove);
                 }
             }
             else {
+                var tradRemove = _traductionViewModels
+                    .First(t => t.SourceWord.Id == _currentSource.Id);
+
+                tradRemove.TargetWords.Remove(_currentTarget);
+                if (tradRemove.TargetWords.Count == 0) {
+                    _traductionViewModels.Remove(tradRemove);
+                }
+
+
                 Console.WriteLine("nyay 1");
+                hasAnsweredCorrectly = false;
+                
                 var trad = _traductionViewModelsNotCorrectlyAnswered.FirstOrDefault(t =>
                     t.SourceWord.Id == _currentSource.Id);
                 if (trad is null) {
@@ -211,7 +244,8 @@ public partial class SeriePlayViewModel : ViewModelBase {
                 }
             }
         }
-        else { //donne un mot français à traduire en anglais
+        else {
+            //donne un mot français à traduire en anglais
             if (CanBeAnyTraduction) {
                 var trad = _traductionViewModels.First(t => t.SourceWord.Id == _currentSource.Id);
                 var allPossibleAnswers = trad.TargetWords
@@ -222,21 +256,61 @@ public partial class SeriePlayViewModel : ViewModelBase {
                     Console.WriteLine("bonne réponse yay 2");
                 }
                 else {
+                    _traductionViewModels.Remove(trad);
+
                     if (_traductionViewModelsNotCorrectlyAnswered.FirstOrDefault(t =>
                             t.SourceWord.Id == _currentSource.Id) != null) {
                         _traductionViewModelsNotCorrectlyAnswered.Add(trad);
                     }
+
                     Console.WriteLine("nyay 2");
+                    hasAnsweredCorrectly = false;
                 }
             }
             else {
                 if (Answer.TrimAndReduce().ToLower() == _currentTarget.Name.TrimAndReduce().ToLower()) {
                     Console.WriteLine("bonne réponse yay 3");
+                    var tradRemove = _traductionViewModels
+                        .First(t => t.SourceWord.Id == _currentSource.Id);
+
+                    tradRemove.TargetWords.Remove(_currentTarget);
+                    if (tradRemove.TargetWords.Count == 0) {
+                        _traductionViewModels.Remove(tradRemove);
+                    }
                 }
                 else {
+                    var tradRemove = _traductionViewModels
+                        .First(t => t.SourceWord.Id == _currentSource.Id);
+
+                    tradRemove.TargetWords.Remove(_currentTarget);
+                    if (tradRemove.TargetWords.Count == 0) {
+                        _traductionViewModels.Remove(tradRemove);
+                    }
+
                     Console.WriteLine("nyay 3");
+                    hasAnsweredCorrectly = false;
+
+                    var trad = _traductionViewModelsNotCorrectlyAnswered.FirstOrDefault(t =>
+                        t.SourceWord.Id == _currentSource.Id);
+                    if (trad is null) {
+                        _traductionViewModelsNotCorrectlyAnswered.Add(
+                            new TraductionViewModel() {
+                                SourceWord = _currentSource,
+                                TargetWords = new ObservableCollection<WordViewModel>() {
+                                    _currentTarget
+                                }
+                            }
+                        );
+                    }
+                    else {
+                        if (!trad.TargetWords.Contains(_currentTarget)) {
+                            trad.TargetWords.Add(_currentTarget);
+                        }
+                    }
                 }
             }
         }
+        
+        ToggleSubmitNextButton();
     }
 }
