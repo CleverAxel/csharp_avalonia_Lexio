@@ -97,6 +97,15 @@ public partial class SeriePlayViewModel : ViewModelBase {
     [ObservableProperty]
     private string _answer = "";
 
+    [ObservableProperty]
+    private bool _isVisibleCorrectAnswer = false;
+
+    [ObservableProperty]
+    private bool _isVisibleWrongAnswer = false;
+
+    [ObservableProperty]
+    private string _correctAnswerToDisplay = "";
+
     public SeriePlayViewModel(RoutingService routingService, SerieService serieService) {
         _routingService = routingService;
         _serieService = serieService;
@@ -107,7 +116,7 @@ public partial class SeriePlayViewModel : ViewModelBase {
 
             _traductionViewModels = await serieService.RetrieveTranslationFromSerieId(SerieDetailViewModel.Id);
             _copyTraductions = _traductionViewModels;
-            
+
             _countWithDefinition = _traductionViewModels
                 .Select(t => t.TargetWords.Count(w => w.IsAdded))
                 .Sum();
@@ -135,12 +144,20 @@ public partial class SeriePlayViewModel : ViewModelBase {
             TotalWordsCount = _countWithoutDefinition;
         }
 
-
+        RemainingWordCount = TotalWordsCount;
         ToggleVisibilityStartQuizz();
         Pickword();
     }
 
     [RelayCommand]
+    private void Next() {
+        IsVisibleCorrectAnswer = false;
+        IsVisibleWrongAnswer = false;
+        ToggleSubmitNextButton();
+        
+        Pickword();
+    }
+    
     private void Pickword() {
         var traduction = _traductionViewModels.RandomElement();
 
@@ -165,7 +182,7 @@ public partial class SeriePlayViewModel : ViewModelBase {
             // donne un mot français à traduire en anglais
             WordToTranslate = traduction.SourceWord;
             if (CanBeAnyTraduction) {
-                var definitions = 
+                var definitions =
                     _copyTraductions
                         .First(t => t.SourceWord.Id == traduction.SourceWord.Id).TargetWords
                         .Select(t => t.Definition);
@@ -194,11 +211,12 @@ public partial class SeriePlayViewModel : ViewModelBase {
 
     [RelayCommand]
     private void SubmitAnswer() {
-        if(string.IsNullOrWhiteSpace(Answer))
+        if (string.IsNullOrWhiteSpace(Answer))
             return;
 
         bool hasAnsweredCorrectly = true;
-        
+        string correctAnswer = "";
+
         if (FromLanguage) {
             //donne un mot anglais à traduire en français
             if (Answer.TrimAndReduce().ToLower() == _currentSource.Name.TrimAndReduce().ToLower()) {
@@ -213,6 +231,7 @@ public partial class SeriePlayViewModel : ViewModelBase {
                 }
             }
             else {
+                correctAnswer = _currentSource.Name;
                 var tradRemove = _traductionViewModels
                     .First(t => t.SourceWord.Id == _currentSource.Id);
 
@@ -224,7 +243,7 @@ public partial class SeriePlayViewModel : ViewModelBase {
 
                 Console.WriteLine("nyay 1");
                 hasAnsweredCorrectly = false;
-                
+
                 var trad = _traductionViewModelsNotCorrectlyAnswered.FirstOrDefault(t =>
                     t.SourceWord.Id == _currentSource.Id);
                 if (trad is null) {
@@ -251,7 +270,8 @@ public partial class SeriePlayViewModel : ViewModelBase {
                 var allPossibleAnswers = trad.TargetWords
                     .Select(w => w.Name.TrimAndReduce().ToLower());
 
-                if (allPossibleAnswers.Contains(Answer.TrimAndReduce().ToLower())) {
+                var possibleAnswers = allPossibleAnswers as string[] ?? allPossibleAnswers.ToArray();
+                if (possibleAnswers.Contains(Answer.TrimAndReduce().ToLower())) {
                     _traductionViewModels.Remove(trad);
                     Console.WriteLine("bonne réponse yay 2");
                 }
@@ -265,6 +285,7 @@ public partial class SeriePlayViewModel : ViewModelBase {
 
                     Console.WriteLine("nyay 2");
                     hasAnsweredCorrectly = false;
+                    correctAnswer = string.Join(", ", possibleAnswers);
                 }
             }
             else {
@@ -288,6 +309,7 @@ public partial class SeriePlayViewModel : ViewModelBase {
                     }
 
                     Console.WriteLine("nyay 3");
+                    correctAnswer = _currentTarget.Name;
                     hasAnsweredCorrectly = false;
 
                     var trad = _traductionViewModelsNotCorrectlyAnswered.FirstOrDefault(t =>
@@ -310,7 +332,19 @@ public partial class SeriePlayViewModel : ViewModelBase {
                 }
             }
         }
-        
+
+        if (hasAnsweredCorrectly) {
+            IsVisibleCorrectAnswer = true;
+            CorrectTranslatedWordCount++;
+        }
+        else {
+            CorrectAnswerToDisplay = correctAnswer;
+            IsVisibleWrongAnswer = true;
+            IncorrectTranslatedWordCount++;
+        }
+
+        RemainingWordCount--;
+
         ToggleSubmitNextButton();
     }
 }

@@ -110,51 +110,77 @@
                              Content="{Binding TraductionMustMatchDefinitionLabel}"
                              IsChecked="{Binding TraductionMustMatchDefinition}" />
             </StackPanel>
-            <Button Margin="0  20 0 10" HorizontalAlignment="Center" Classes="Base" Command="{Binding StartPlayCommand}">Démarrer le test</Button>
+            <Button Margin="0  20 0 10" HorizontalAlignment="Center" Classes="Base"
+                    Command="{Binding StartPlayCommand}">
+                Démarrer le test
+            </Button>
         </StackPanel>
         <StackPanel Grid.Row="1" IsVisible="{Binding IsQuizzVisible}">
-            <Grid ColumnDefinitions="Auto, Auto" RowSpacing="2" ColumnSpacing="2" RowDefinitions="Auto, Auto, Auto, Auto">
+            <Grid ColumnDefinitions="Auto, Auto" RowSpacing="2" ColumnSpacing="2"
+                  RowDefinitions="Auto, Auto, Auto, Auto">
                 <TextBlock Grid.Row="0" Grid.Column="0" FontSize="14">📑Nombre de mot(s) total à traduire :</TextBlock>
-                <TextBlock Grid.Row="0" Grid.Column="1" FontSize="14" FontWeight="Bold" Classes="PrimaryFont" Text="{Binding TotalWordsCount}"></TextBlock>
-                
+                <TextBlock Grid.Row="0" Grid.Column="1" FontSize="14" FontWeight="Bold" Classes="PrimaryFont"
+                           Text="{Binding TotalWordsCount}">
+                </TextBlock>
+
                 <TextBlock Grid.Row="1" Grid.Column="0" FontSize="14">🔖Nombre de mot(s) restant(s) à traduire :</TextBlock>
-                <TextBlock Grid.Row="1" Grid.Column="1" FontSize="14" FontWeight="Bold" Classes="PrimaryFont" Text="{Binding RemainingWordCount}"></TextBlock>
-                
-                <TextBlock Grid.Row="2" Grid.Column="0" FontSize="14" >🟢Nombre de mot(s) correctement traduit(s) :</TextBlock>
-                <TextBlock Grid.Row="2" Grid.Column="1" FontSize="14" FontWeight="Bold" Classes="PrimaryFont" Text="{Binding CorrectTranslatedWordCount}"></TextBlock>
-                                
-                <TextBlock Grid.Row="3" Grid.Column="0" FontSize="14" >❌Nombre de mot(s) incorrectement traduit(s) :</TextBlock>
-                <TextBlock Grid.Row="3" Grid.Column="1" FontSize="14" FontWeight="Bold" Classes="PrimaryFont" Text="{Binding IncorrectTranslatedWordCount}"></TextBlock>
+                <TextBlock Grid.Row="1" Grid.Column="1" FontSize="14" FontWeight="Bold" Classes="PrimaryFont"
+                           Text="{Binding RemainingWordCount}">
+                </TextBlock>
+
+                <TextBlock Grid.Row="2" Grid.Column="0" FontSize="14">🟢Nombre de mot(s) correctement traduit(s) :</TextBlock>
+                <TextBlock Grid.Row="2" Grid.Column="1" FontSize="14" FontWeight="Bold" Classes="PrimaryFont"
+                           Text="{Binding CorrectTranslatedWordCount}">
+                </TextBlock>
+
+                <TextBlock Grid.Row="3" Grid.Column="0" FontSize="14">❌Nombre de mot(s) incorrectement traduit(s) :</TextBlock>
+                <TextBlock Grid.Row="3" Grid.Column="1" FontSize="14" FontWeight="Bold" Classes="PrimaryFont"
+                           Text="{Binding IncorrectTranslatedWordCount}">
+                </TextBlock>
             </Grid>
             <StackPanel Margin="0 20 0 0">
                 <TextBlock HorizontalAlignment="Center" FontWeight="Bold" FontSize="24">Donnez la traduction de ce mot :</TextBlock>
                 <Border HorizontalAlignment="Stretch" BorderBrush="White" BorderThickness="1" Margin="0 10"></Border>
-                <TextBlock HorizontalAlignment="Center" FontSize="20" FontStyle="Italic" Text="{Binding WordToTranslate.Name}"></TextBlock>
-                <StackPanel IsVisible="False">
-                    <Border HorizontalAlignment="Stretch" BorderBrush="White" BorderThickness="1" Margin="0 10"></Border>
-                    <TextBlock FontSize="24" HorizontalAlignment="Center" FontWeight="Bold" Foreground="{StaticResource SuccessColor}">CORRECT 🥳</TextBlock>
-                    <Border Background="White" Padding="10" HorizontalAlignment="Center" CornerRadius="10">
-                        <TextBlock Foreground="Black">Test</TextBlock>
-                    </Border>
-                </StackPanel>
-                <StackPanel IsVisible="False">
-                    <Border HorizontalAlignment="Stretch" BorderBrush="White" BorderThickness="1" Margin="0 10"></Border>
-                    <TextBlock FontSize="24" HorizontalAlignment="Center" FontWeight="Bold" Foreground="{StaticResource DangerColor}">INCORRECT 😡</TextBlock>
-                    <Border Background="White" Padding="10" HorizontalAlignment="Center" CornerRadius="10">
-                        <TextBlock Foreground="Black">Test</TextBlock>
-                    </Border>
-                </StackPanel>
+                <TextBlock HorizontalAlignment="Center" FontSize="20" FontStyle="Italic"
+                           Text="{Binding WordToTranslate.Name}">
+                </TextBlock>
+
                 <Border HorizontalAlignment="Stretch" BorderBrush="White" BorderThickness="1" Margin="0 10"></Border>
                 <TextBlock HorizontalAlignment="Center" FontWeight="Bold">Définition :</TextBlock>
-                <TextBlock HorizontalAlignment="Center" FontStyle="Italic" TextWrapping="Wrap" Text="{Binding DefinitionOfWord}"></TextBlock>
-                
+                <TextBlock HorizontalAlignment="Center" FontStyle="Italic" TextWrapping="Wrap"
+                           Text="{Binding DefinitionOfWord}">
+                </TextBlock>
+
                 <TextBlock HorizontalAlignment="Center" Margin="0 30 0 0" Text="{Binding LabelAnswer}"></TextBlock>
                 <TextBox Text="{Binding Answer}" Classes="Base" Margin="10" TextAlignment="Center" Foreground="Black"></TextBox>
-                <Button IsEnabled="{Binding SubmitButtonEnabled}" Command="{Binding SubmitAnswerCommand}" Classes="Base" HorizontalAlignment="Stretch">
+                <Button IsEnabled="{Binding SubmitButtonEnabled}" Command="{Binding SubmitAnswerCommand}"
+                        Classes="Base" HorizontalAlignment="Stretch">
                     <TextBlock HorizontalAlignment="Center">Soumettre votre réponse</TextBlock>
                 </Button>
-                
-                <Button Classes="Base" Margin="0 30 0 0" HorizontalAlignment="Right" IsEnabled="{Binding NextButtonEnabled}">Suivant</Button>
+
+                <Button Command="{Binding NextCommand}" Classes="Base" Margin="0 30 0 0" HorizontalAlignment="Right"
+                        IsEnabled="{Binding NextButtonEnabled}">
+                    Suivant
+                </Button>
+
+
+                <StackPanel IsVisible="{Binding IsVisibleCorrectAnswer}">
+                    <TextBlock FontSize="24" HorizontalAlignment="Center" FontWeight="Bold"
+                               Foreground="{StaticResource SuccessColor}">
+                        CORRECT 🥳
+                    </TextBlock>
+                </StackPanel>
+                <StackPanel IsVisible="{Binding IsVisibleWrongAnswer}">
+                    <TextBlock FontSize="24" HorizontalAlignment="Center" FontWeight="Bold"
+                               Foreground="{StaticResource DangerColor}">
+                        INCORRECT 😡
+                    </TextBlock>
+                    <Border Background="White" Padding="10" HorizontalAlignment="Center" CornerRadius="10">
+                        <TextBlock Foreground="Black" Text="{Binding CorrectAnswerToDisplay}" TextWrapping="Wrap"></TextBlock>
+                    </Border>
+                </StackPanel>
+
+
             </StackPanel>
         </StackPanel>
     </Grid>
