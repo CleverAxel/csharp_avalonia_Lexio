@@ -149,8 +149,8 @@
                 <TextBlock HorizontalAlignment="Center" FontStyle="Italic" TextWrapping="Wrap" Text="{Binding DefinitionOfWord}"></TextBlock>
                 
                 <TextBlock HorizontalAlignment="Center" Margin="0 30 0 0" Text="{Binding LabelAnswer}"></TextBlock>
-                <TextBox Classes="Base" Margin="10" TextAlignment="Center" Foreground="Black"></TextBox>
-                <Button Classes="Base" HorizontalAlignment="Stretch">
+                <TextBox Text="{Binding Answer}" Classes="Base" Margin="10" TextAlignment="Center" Foreground="Black"></TextBox>
+                <Button Command="{Binding SubmitAnswerCommand}" Classes="Base" HorizontalAlignment="Stretch">
                     <TextBlock HorizontalAlignment="Center">Soumettre votre réponse</TextBlock>
                 </Button>
                 

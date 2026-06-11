@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -86,6 +87,9 @@ public partial class SeriePlayViewModel : ViewModelBase {
     private WordViewModel _currentSource;
     private WordViewModel _currentTarget;
 
+    [ObservableProperty]
+    private string _answer = "";
+
     public SeriePlayViewModel(RoutingService routingService, SerieService serieService) {
         _routingService = routingService;
         _serieService = serieService;
@@ -137,27 +141,32 @@ public partial class SeriePlayViewModel : ViewModelBase {
 
         _currentSource = traduction.SourceWord;
 
+
         if (FromLanguage) {
+            // donne un mot anglais à traduire en français
             var tempTarget = traduction.TargetWords.RandomElement();
 
             if (tempTarget is null)
                 return;
-            
+
             WordToTranslate = tempTarget;
             DefinitionOfWord = WordToTranslate.Definition;
             _currentTarget = tempTarget;
         }
         else {
-            // De français en anglais
+            // donne un mot français à traduire en anglais
             WordToTranslate = traduction.SourceWord;
             if (CanBeAnyTraduction) {
                 var definitions = traduction.TargetWords.Select(t => t.Definition);
-                DefinitionOfWord = string.Join(" | ", definitions);
+                DefinitionOfWord = string.Join("\n", definitions);
             }
             else {
-                var definition = traduction.TargetWords.RandomElement()?.Definition;
-                if (definition != null)
-                    DefinitionOfWord = definition;
+                var tempTarget = traduction.TargetWords.RandomElement();
+                if (tempTarget is null)
+                    return;
+
+                _currentTarget = tempTarget;
+                DefinitionOfWord = _currentTarget.Definition;
             }
         }
     }
@@ -165,5 +174,64 @@ public partial class SeriePlayViewModel : ViewModelBase {
     private void ToggleVisibilityStartQuizz() {
         IsPlayMenuVisible = !IsPlayMenuVisible;
         IsQuizzVisible = !IsQuizzVisible;
+    }
+
+    [RelayCommand]
+    private void SubmitAnswer() {
+        if (FromLanguage) { //donne un mot anglais à traduire en français
+            if (Answer.TrimAndReduce().ToLower() == _currentSource.Name.TrimAndReduce().ToLower()) {
+                Console.WriteLine("bonne réponse yay 1");
+
+                var trad = _traductionViewModels
+                    .First(t => t.SourceWord.Id == _currentSource.Id);
+
+                trad.TargetWords.Remove(_currentTarget);
+                if (trad.TargetWords.Count == 0) {
+                    _traductionViewModels.Remove(trad);
+                }
+            }
+            else {
+                Console.WriteLine("nyay 1");
+                var trad = _traductionViewModelsNotCorrectlyAnswered.FirstOrDefault(t =>
+                    t.SourceWord.Id == _currentSource.Id);
+                if (trad is null) {
+                    _traductionViewModelsNotCorrectlyAnswered.Add(
+                        new TraductionViewModel() {
+                            SourceWord = _currentSource,
+                            TargetWords = new ObservableCollection<WordViewModel>() {
+                                _currentTarget
+                            }
+                        }
+                    );
+                }
+                else {
+                    if (!trad.TargetWords.Contains(_currentTarget)) {
+                        trad.TargetWords.Add(_currentTarget);
+                    }
+                }
+            }
+        }
+        else { //donne un mot français à traduire en anglais
+            if (CanBeAnyTraduction) {
+                var allPossibleAnswers = _traductionViewModels
+                    .First(t => t.SourceWord.Id == _currentSource.Id).TargetWords
+                    .Select(w => w.Name.TrimAndReduce().ToLower());
+
+                if (allPossibleAnswers.Contains(Answer.TrimAndReduce().ToLower())) {
+                    Console.WriteLine("bonne réponse yay 2");
+                }
+                else {
+                    Console.WriteLine("nyay 2");
+                }
+            }
+            else {
+                if (Answer.TrimAndReduce().ToLower() == _currentTarget.Name.TrimAndReduce().ToLower()) {
+                    Console.WriteLine("bonne réponse yay 3");
+                }
+                else {
+                    Console.WriteLine("nyay 3");
+                }
+            }
+        }
     }
 }
