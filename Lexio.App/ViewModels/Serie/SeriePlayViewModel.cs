@@ -213,14 +213,19 @@ public partial class SeriePlayViewModel : ViewModelBase {
         }
         else { //donne un mot français à traduire en anglais
             if (CanBeAnyTraduction) {
-                var allPossibleAnswers = _traductionViewModels
-                    .First(t => t.SourceWord.Id == _currentSource.Id).TargetWords
+                var trad = _traductionViewModels.First(t => t.SourceWord.Id == _currentSource.Id);
+                var allPossibleAnswers = trad.TargetWords
                     .Select(w => w.Name.TrimAndReduce().ToLower());
 
                 if (allPossibleAnswers.Contains(Answer.TrimAndReduce().ToLower())) {
+                    _traductionViewModels.Remove(trad);
                     Console.WriteLine("bonne réponse yay 2");
                 }
                 else {
+                    if (_traductionViewModelsNotCorrectlyAnswered.FirstOrDefault(t =>
+                            t.SourceWord.Id == _currentSource.Id) != null) {
+                        _traductionViewModelsNotCorrectlyAnswered.Add(trad);
+                    }
                     Console.WriteLine("nyay 2");
                 }
             }
