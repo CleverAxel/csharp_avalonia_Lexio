@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Lexio.App.Dialog;
 using Lexio.App.Helpers;
 using Lexio.App.Routing;
 using Lexio.App.Services;
@@ -106,9 +107,12 @@ public partial class SeriePlayViewModel : ViewModelBase {
     [ObservableProperty]
     private string _correctAnswerToDisplay = "";
 
-    public SeriePlayViewModel(RoutingService routingService, SerieService serieService) {
+    private DialogService _dialogService;
+
+    public SeriePlayViewModel(RoutingService routingService, SerieService serieService, DialogService dialogService) {
         _routingService = routingService;
         _serieService = serieService;
+        _dialogService = dialogService;
         _ = Task.Run(async () => {
             SerieLanguage = $"en {SerieDetailViewModel.LanguageName} {SerieDetailViewModel.LanguageFlag}";
             TraductionWayFromLanguage = $"Traduire de {SerieDetailViewModel.LanguageName.ToLower()} en français";
@@ -146,18 +150,58 @@ public partial class SeriePlayViewModel : ViewModelBase {
 
         RemainingWordCount = TotalWordsCount;
         ToggleVisibilityStartQuizz();
+        NextButtonEnabled = false;
+        SubmitButtonEnabled = true;
         Pickword();
     }
 
+    private void Reset() {
+        NextButtonEnabled = false;
+        SubmitButtonEnabled = true;
+        _traductionViewModels = _traductionViewModelsNotCorrectlyAnswered;
+        _countWithDefinition = _traductionViewModels
+            .Select(t => t.TargetWords.Count(w => w.IsAdded))
+            .Sum();
+        _countWithoutDefinition = _traductionViewModels.Count;
+        
+        if (TraductionMustMatchDefinition || FromLanguage) {
+            TotalWordsCount = _countWithDefinition;
+        }
+        else {
+            TotalWordsCount = _countWithoutDefinition;
+        }
+
+        RemainingWordCount = TotalWordsCount;
+        IncorrectTranslatedWordCount = 0;
+        CorrectTranslatedWordCount = 0;
+    }
+
     [RelayCommand]
-    private void Next() {
+    private async Task Next() {
         IsVisibleCorrectAnswer = false;
         IsVisibleWrongAnswer = false;
-        ToggleSubmitNextButton();
+
+        if (RemainingWordCount == 0) {
+            if (IncorrectTranslatedWordCount != 0) {
+                bool confirmReset = await _dialogService.ShowConfirmAsync(
+                    $"Vous avez réalisé {IncorrectTranslatedWordCount} erreur(s). Souhaitez vous réessayer avec les traductions que vous avez foirées ?",
+                    "Recommencer ?");
+                if (confirmReset) {
+                    Reset();
+                    return;
+                }
+            }
+            else {
+                await _dialogService.ShowAlertAsync("Saperlipopette, vous êtes très fort avec votre langue", "Saperlipopette vous avez réussi");
+            }
+            _routingService.GoSerieCommand.Execute(null);
+            return;
+        }
         
+        ToggleSubmitNextButton();
         Pickword();
     }
-    
+
     private void Pickword() {
         var traduction = _traductionViewModels.RandomElement();
 
@@ -169,7 +213,7 @@ public partial class SeriePlayViewModel : ViewModelBase {
 
         if (FromLanguage) {
             // donne un mot anglais à traduire en français
-            var tempTarget = traduction.TargetWords.RandomElement();
+            var tempTarget = traduction.TargetWords.Where(t => t.IsAdded).ToList().RandomElement();
 
             if (tempTarget is null)
                 return;
@@ -189,7 +233,7 @@ public partial class SeriePlayViewModel : ViewModelBase {
                 DefinitionOfWord = string.Join("\n", definitions);
             }
             else {
-                var tempTarget = traduction.TargetWords.RandomElement();
+                var tempTarget = traduction.TargetWords.Where(t => t.IsAdded).ToList().RandomElement();
                 if (tempTarget is null)
                     return;
 
@@ -226,7 +270,7 @@ public partial class SeriePlayViewModel : ViewModelBase {
                     .First(t => t.SourceWord.Id == _currentSource.Id);
 
                 tradRemove.TargetWords.Remove(_currentTarget);
-                if (tradRemove.TargetWords.Count == 0) {
+                if (tradRemove.TargetWords.Count(t => t.IsAdded) == 0) {
                     _traductionViewModels.Remove(tradRemove);
                 }
             }
@@ -236,7 +280,7 @@ public partial class SeriePlayViewModel : ViewModelBase {
                     .First(t => t.SourceWord.Id == _currentSource.Id);
 
                 tradRemove.TargetWords.Remove(_currentTarget);
-                if (tradRemove.TargetWords.Count == 0) {
+                if (tradRemove.TargetWords.Count(t => t.IsAdded) == 0) {
                     _traductionViewModels.Remove(tradRemove);
                 }
 
@@ -295,7 +339,7 @@ public partial class SeriePlayViewModel : ViewModelBase {
                         .First(t => t.SourceWord.Id == _currentSource.Id);
 
                     tradRemove.TargetWords.Remove(_currentTarget);
-                    if (tradRemove.TargetWords.Count == 0) {
+                    if (tradRemove.TargetWords.Count(t => t.IsAdded) == 0) {
                         _traductionViewModels.Remove(tradRemove);
                     }
                 }
@@ -304,7 +348,7 @@ public partial class SeriePlayViewModel : ViewModelBase {
                         .First(t => t.SourceWord.Id == _currentSource.Id);
 
                     tradRemove.TargetWords.Remove(_currentTarget);
-                    if (tradRemove.TargetWords.Count == 0) {
+                    if (tradRemove.TargetWords.Count(t => t.IsAdded) == 0) {
                         _traductionViewModels.Remove(tradRemove);
                     }
 
