@@ -15,6 +15,9 @@ using Lexio.App.ViewModels.Dictionary.Word;
 namespace Lexio.App.ViewModels.Serie;
 
 public partial class SeriePlayViewModel : ViewModelBase {
+    public Action? ClearAnswerInput { get; set; }
+    public Action? FocusAnswerInput { get; set; }
+    public Action? FocusSubmitButton { get; set; }
     public SerieDetailViewModel SerieDetailViewModel { get; set; } = null!;
     private List<TraductionViewModel> _traductionViewModels;
     private List<TraductionViewModel> _copyTraductions;
@@ -149,16 +152,20 @@ public partial class SeriePlayViewModel : ViewModelBase {
         }
 
         RemainingWordCount = TotalWordsCount;
+        //IsQuizzVisible = true;
+        //IsPlayMenuVisible = false;
         ToggleVisibilityStartQuizz();
         NextButtonEnabled = false;
         SubmitButtonEnabled = true;
         Pickword();
+        FocusAnswerInput?.Invoke();
     }
 
     private void Reset() {
         NextButtonEnabled = false;
         SubmitButtonEnabled = true;
         _traductionViewModels = _traductionViewModelsNotCorrectlyAnswered;
+        _copyTraductions = _traductionViewModels;
         _countWithDefinition = _traductionViewModels
             .Select(t => t.TargetWords.Count(w => w.IsAdded))
             .Sum();
@@ -172,8 +179,11 @@ public partial class SeriePlayViewModel : ViewModelBase {
         }
 
         RemainingWordCount = TotalWordsCount;
+        _traductionViewModelsNotCorrectlyAnswered = new List<TraductionViewModel>();
         IncorrectTranslatedWordCount = 0;
         CorrectTranslatedWordCount = 0;
+        
+        Pickword();
     }
 
     [RelayCommand]
@@ -198,6 +208,7 @@ public partial class SeriePlayViewModel : ViewModelBase {
             return;
         }
         
+        FocusAnswerInput?.Invoke();
         ToggleSubmitNextButton();
         Pickword();
     }
@@ -310,6 +321,7 @@ public partial class SeriePlayViewModel : ViewModelBase {
         else {
             //donne un mot français à traduire en anglais
             if (CanBeAnyTraduction) {
+                
                 var trad = _traductionViewModels.First(t => t.SourceWord.Id == _currentSource.Id);
                 var allPossibleAnswers = trad.TargetWords
                     .Select(w => w.Name.TrimAndReduce().ToLower());
@@ -321,9 +333,9 @@ public partial class SeriePlayViewModel : ViewModelBase {
                 }
                 else {
                     _traductionViewModels.Remove(trad);
-
+                    var foo = trad;
                     if (_traductionViewModelsNotCorrectlyAnswered.FirstOrDefault(t =>
-                            t.SourceWord.Id == _currentSource.Id) != null) {
+                            t.SourceWord.Id == _currentSource.Id) == null) {
                         _traductionViewModelsNotCorrectlyAnswered.Add(trad);
                     }
 
@@ -388,7 +400,9 @@ public partial class SeriePlayViewModel : ViewModelBase {
         }
 
         RemainingWordCount--;
-
+        ClearAnswerInput?.Invoke();
         ToggleSubmitNextButton();
+        FocusSubmitButton?.Invoke();
+
     }
 }

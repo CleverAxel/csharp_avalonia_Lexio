@@ -152,14 +152,21 @@
                 </TextBlock>
 
                 <TextBlock HorizontalAlignment="Center" Margin="0 30 0 0" Text="{Binding LabelAnswer}"></TextBlock>
-                <TextBox Text="{Binding Answer}" Classes="Base" Margin="10" TextAlignment="Center" Foreground="Black"></TextBox>
+                <TextBox Name="Answer" x:Name="Answer" Text="{Binding Answer}" Classes="Base" Margin="10" TextAlignment="Center" Foreground="Black">
+                    <TextBox.KeyBindings>
+                        <KeyBinding Gesture="Enter" Command="{Binding SubmitAnswerCommand}" />
+                    </TextBox.KeyBindings>
+                </TextBox>
                 <Button IsEnabled="{Binding SubmitButtonEnabled}" Command="{Binding SubmitAnswerCommand}"
                         Classes="Base" HorizontalAlignment="Stretch">
                     <TextBlock HorizontalAlignment="Center">Soumettre votre réponse</TextBlock>
                 </Button>
 
-                <Button Command="{Binding NextCommand}" Classes="Base" Margin="0 30 0 0" HorizontalAlignment="Right"
+                <Button Name="SubmitButton" x:Name="SubmitButton" Command="{Binding NextCommand}" Classes="Base" Margin="0 30 0 0" HorizontalAlignment="Right"
                         IsEnabled="{Binding NextButtonEnabled}">
+                    <Button.KeyBindings>
+                        <KeyBinding Gesture="Enter" Command="{Binding NextCommand}" />
+                    </Button.KeyBindings>
                     Suivant
                 </Button>
 
