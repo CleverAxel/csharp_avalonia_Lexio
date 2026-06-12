@@ -84,4 +84,5 @@ public partial class SerieViewModel : ViewModelBase {
         AvailableSeries =
             new ObservableCollection<SerieDetailViewModel>(await _serieService.GetSeriesAvailablesAsync());
     }
+    
 }

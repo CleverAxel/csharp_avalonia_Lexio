@@ -150,4 +150,16 @@ public class SerieService {
 
         await _context.SaveChangesAsync();
     }
+
+    public async Task<List<SerieResultDetailViewModel>> GetResults() {
+        return await _context.SeriesResults.OrderByDescending(r => r.CreatedAt).Select(r => new SerieResultDetailViewModel() {
+            Id = r.Id,
+            CorrectAnswerCount = r.CorrectAnswerCount,
+            CreatedAt = r.CreatedAt.ToString("dd/MM/yyyy HH:mm:ss"),
+            IsAReplay = r.IsAReplay ? "VRAI" : "FAUX",
+            QuestionCount = r.QuestionCount,
+            SerieName = $"{r.Serie.Name} en {r.Serie.Language.Name}{r.Serie.Language.Flag}",
+            Percentage = Math.Round((double)(r.CorrectAnswerCount / r.QuestionCount * 100), 2)
+        }).ToListAsync();
+    }
 }

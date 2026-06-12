@@ -57,7 +57,7 @@
 
     <Grid RowDefinitions="Auto, *">
         <Border BorderBrush="White" BorderThickness="0 0 0 5">
-            <Grid ColumnDefinitions="Auto">
+            <Grid ColumnDefinitions="Auto, *">
                 <Border Padding="10" BorderBrush="White" BorderThickness="0">
                     <StackPanel Orientation="Vertical" Spacing="5">
                         <TextBlock FontSize="20" FontWeight="Bold">Ajouter une nouvelle série :</TextBlock>
@@ -87,6 +87,15 @@
                             </StackPanel>
                         </Button>
                     </StackPanel>
+                </Border>
+                <Border Grid.Column="1">
+                    <Button HorizontalAlignment="Right" Classes="Base" Command="{Binding RoutingService.GoSerieResultCommand}">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock HorizontalAlignment="Center">Résultats des séries</TextBlock>
+                            <TextBlock HorizontalAlignment="Center">📈</TextBlock>
+                        </StackPanel>
+
+                    </Button>
                 </Border>
             </Grid>
         </Border>

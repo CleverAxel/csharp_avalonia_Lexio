@@ -83,6 +83,14 @@ public class RoutingService {
         };
     }
 
+    public BreadcrumbItem SerieResultBreadcrumb(bool active = false) {
+        return new BreadcrumbItem() {
+            Command = GoSerieResultCommand,
+            Name = "📈Résultats des séries",
+            Active = active
+        };
+    }
+
     public IRelayCommand GoHomeCommand { get; set; } = null!;
     public IRelayCommand GoDictionaryCommand { get; set; } = null!;
     public IRelayCommand GoLanguageManagementCommand { get; set; } = null!;
@@ -91,4 +99,5 @@ public class RoutingService {
     public IRelayCommand GoSerieCommand { get; set; } = null!;
     public IRelayCommand GoSerieManagementCommand { get; set; } = null!;
     public IRelayCommand GoSeriePlayCommand { get; set; } = null!;
+    public IRelayCommand GoSerieResultCommand { get; set; } = null!;
 }
