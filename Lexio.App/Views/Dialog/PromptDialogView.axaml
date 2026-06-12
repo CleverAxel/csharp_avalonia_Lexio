@@ -35,7 +35,7 @@
     </Window.Styles>
 
     <Grid RowDefinitions="*,Auto, Auto" Margin="20">
-        <TextBlock Grid.Row="0" Text="{Binding Message}"
+        <TextBlock Grid.Row="0" Text="{Binding Message}" Classes="PrimaryFont"
                    TextWrapping="Wrap" 
                    HorizontalAlignment="Center" 
                    VerticalAlignment="Center" 

@@ -99,7 +99,7 @@ public partial class TraductionManagementViewModel : ViewModelBase {
         
     [RelayCommand]
     public async Task EditDefinitionAsync(WordViewModel wordViewModel) {
-        string? newDef = await _dialogService.ShowPromptAsync($"Modification de la définition du mot :\n{wordViewModel.Name}", "");
+        string? newDef = await _dialogService.ShowPromptAsync($"Modification de la définition du mot :\n{wordViewModel.Name}", wordViewModel.Definition);
         if(string.IsNullOrWhiteSpace(newDef))
             return;
         
