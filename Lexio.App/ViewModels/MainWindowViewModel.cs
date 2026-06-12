@@ -45,7 +45,7 @@ public partial class MainWindowViewModel : ViewModelBase {
         // TODO Cleanup
         routingService.BreadcrumbChanged += OnBreadcrumbChanged;
 
-        _currentPage = App.ServiceProvider.GetRequiredService<SerieViewModel>();
+        _currentPage = App.ServiceProvider.GetRequiredService<HomeViewModel>();
     }
 
     private void OnBreadcrumbChanged(IEnumerable<BreadcrumbItem> items) {

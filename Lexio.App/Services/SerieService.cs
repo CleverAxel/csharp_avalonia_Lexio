@@ -158,7 +158,7 @@ public class SerieService {
             CreatedAt = r.CreatedAt.ToString("dd/MM/yyyy HH:mm:ss"),
             IsAReplay = r.IsAReplay ? "VRAI" : "FAUX",
             QuestionCount = r.QuestionCount,
-            SerieName = $"{r.Serie.Name} en {r.Serie.Language.Name}{r.Serie.Language.Flag}",
+            SerieName = $"{r.Serie.Name} → en {r.Serie.Language.Name}-{r.Serie.Language.Flag}",
             Percentage = Math.Round((double)(r.CorrectAnswerCount / r.QuestionCount * 100), 2)
         }).ToListAsync();
     }

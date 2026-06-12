@@ -89,7 +89,7 @@
                     </StackPanel>
                 </Border>
                 <Border Grid.Column="1">
-                    <Button HorizontalAlignment="Right" Classes="Base" Command="{Binding RoutingService.GoSerieResultCommand}">
+                    <Button Margin="0 0 30 0" HorizontalAlignment="Right" Classes="Base" Command="{Binding RoutingService.GoSerieResultCommand}">
                         <StackPanel HorizontalAlignment="Center">
                             <TextBlock HorizontalAlignment="Center">Résultats des séries</TextBlock>
                             <TextBlock HorizontalAlignment="Center">📈</TextBlock>
