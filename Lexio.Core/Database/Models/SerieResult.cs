@@ -19,6 +19,12 @@ public class SerieResult
     [Column("question_count")]
     public int QuestionCount { get; set; }
 
+    [Column("created_at")]
+    public DateTime CreatedAt { get; set; }
+
+    [Column("is_a_replay")]
+    public bool IsAReplay { get; set; }
+
     [ForeignKey(nameof(SeriesId))]
     public Serie Serie { get; set; } = null!;
 }

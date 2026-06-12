@@ -138,4 +138,16 @@ public class SerieService {
 
         return stuff;
     }
+
+    public async Task AddSerieResult(int serieId, int questionCount, int correctAnswerCount, bool isAReplay) {
+        await _context.SeriesResults.AddAsync(new SerieResult() {
+            CorrectAnswerCount = correctAnswerCount,
+            IsAReplay = isAReplay,
+            QuestionCount = questionCount,
+            SeriesId = serieId,
+            CreatedAt = DateTime.Now
+        });
+
+        await _context.SaveChangesAsync();
+    }
 }

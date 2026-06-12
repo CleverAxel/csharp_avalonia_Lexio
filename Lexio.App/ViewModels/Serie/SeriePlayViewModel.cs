@@ -112,6 +112,8 @@ public partial class SeriePlayViewModel : ViewModelBase {
 
     private DialogService _dialogService;
 
+    private bool _isAReplay = false;
+
     public SeriePlayViewModel(RoutingService routingService, SerieService serieService, DialogService dialogService) {
         _routingService = routingService;
         _serieService = serieService;
@@ -182,16 +184,18 @@ public partial class SeriePlayViewModel : ViewModelBase {
         _traductionViewModelsNotCorrectlyAnswered = new List<TraductionViewModel>();
         IncorrectTranslatedWordCount = 0;
         CorrectTranslatedWordCount = 0;
-        
+        _isAReplay = true;
         Pickword();
     }
 
     [RelayCommand]
     private async Task Next() {
+        
         IsVisibleCorrectAnswer = false;
         IsVisibleWrongAnswer = false;
 
         if (RemainingWordCount == 0) {
+            await _serieService.AddSerieResult(SerieDetailViewModel.Id, TotalWordsCount, CorrectTranslatedWordCount, _isAReplay);
             if (IncorrectTranslatedWordCount != 0) {
                 bool confirmReset = await _dialogService.ShowConfirmAsync(
                     $"Vous avez réalisé {IncorrectTranslatedWordCount} erreur(s). Souhaitez vous réessayer avec les traductions que vous avez foirées ?",
