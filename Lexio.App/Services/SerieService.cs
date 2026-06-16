@@ -162,4 +162,14 @@ public class SerieService {
             Percentage = Math.Round((double)(r.CorrectAnswerCount / r.QuestionCount * 100), 2)
         }).ToListAsync();
     }
+    
+    public async Task<List<SerieStatViewModel>> GetSeriesStats() {
+        return await _context.SeriesResults
+            .GroupBy(sr => sr.SeriesId)
+            .Select(g => new SerieStatViewModel() {
+                SerieName = $"{g.First().Serie.Name} → en {g.First().Serie.Language.Name}-{g.First().Serie.Language.Flag}",
+                PlayedCount = g.Count(),
+                TotalErrors = g.Sum(sr => sr.QuestionCount - sr.CorrectAnswerCount)
+            }).ToListAsync();
+    }
 }

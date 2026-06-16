@@ -9,11 +9,18 @@ public partial class SerieResultViewModel : ViewModelBase {
         get;
         set => SetProperty(ref field, value);
     } = new ObservableCollection<SerieResultDetailViewModel>();
+    
+    public ObservableCollection<SerieStatViewModel> SerieStatViewModels {
+        get;
+        set => SetProperty(ref field, value);
+    } = new ObservableCollection<SerieStatViewModel>();
 
     public SerieResultViewModel(SerieService serieService) {
         _ = Task.Run(async () => {
             SerieResultDetailViewModels =
                 new ObservableCollection<SerieResultDetailViewModel>(await serieService.GetResults());
+
+            SerieStatViewModels = new ObservableCollection<SerieStatViewModel>(await serieService.GetSeriesStats());
         });
     }
 }

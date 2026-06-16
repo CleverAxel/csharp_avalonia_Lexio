@@ -16,39 +16,69 @@
             <Setter Property="FontStyle" Value="Italic"></Setter>
         </Style>
     </UserControl.Styles>
-    <ScrollViewer>
-        <ItemsControl ItemsSource="{Binding SerieResultDetailViewModels}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Border BorderBrush="White" BorderThickness="0 0 0 2" Margin="10 0" Padding="10">
-                        <Grid ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
-                              RowSpacing="4" ColumnSpacing="10">
-                            <TextBlock Grid.Row="0" Grid.Column="0" Classes="Label">Joué le :</TextBlock>
-                            <TextBlock Grid.Row="0" Grid.Column="1" Classes="Value PrimaryFont"
-                                       Text="{Binding CreatedAt}" />
+    <Grid ColumnDefinitions="*, *">
+        <StackPanel>
+            <TextBlock FontSize="24" Padding="10" HorizontalAlignment="Center" FontWeight="Bold">• STATISTIQUES •</TextBlock>
+            <ScrollViewer VerticalAlignment="Stretch">
+                <ItemsControl ItemsSource="{Binding SerieStatViewModels}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="White" BorderThickness="0 0 0 2" Margin="10 0" Padding="10"
+                                    Background="{StaticResource ButtonColor}">
+                                <Grid ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto, Auto"
+                                      RowSpacing="4" ColumnSpacing="10">
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Classes="Label">Nom de la série :</TextBlock>
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Classes="Value"
+                                               Text="{Binding SerieName}" />
 
-                            <TextBlock Grid.Row="1" Grid.Column="0" Classes="Label">Nom de la série :</TextBlock>
-                            <TextBlock Grid.Row="1" Grid.Column="1" Classes="Value" Text="{Binding SerieName}" />
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Classes="Label">Nombre de fois joué(s) :</TextBlock>
+                                    <TextBlock Grid.Row="1" Grid.Column="1" Classes="Value PrimaryFont"
+                                               Text="{Binding PlayedCount}" />
 
-                            <TextBlock Grid.Row="3" Grid.Column="0" Classes="Label">Nombre de bonne(s) réponse(s) :</TextBlock>
-                            <TextBlock Grid.Row="3" Grid.Column="1" Classes="Value PrimaryFont"
-                                       Text="{Binding CorrectAnswerCount}" />
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Classes="Label">Nombre total d'erreur(s) commise(s) :</TextBlock>
+                                    <TextBlock Grid.Row="2" Grid.Column="1" Classes="Value PrimaryFont"
+                                               Text="{Binding TotalErrors}" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </StackPanel>
+        <ScrollViewer Grid.Column="1">
+            <ItemsControl ItemsSource="{Binding SerieResultDetailViewModels}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="White" BorderThickness="0 0 0 2" Margin="10 0" Padding="10">
+                            <Grid ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
+                                  RowSpacing="4" ColumnSpacing="10">
+                                <TextBlock Grid.Row="0" Grid.Column="0" Classes="Label">Joué le :</TextBlock>
+                                <TextBlock Grid.Row="0" Grid.Column="1" Classes="Value PrimaryFont"
+                                           Text="{Binding CreatedAt}" />
 
-                            <TextBlock Grid.Row="2" Grid.Column="0" Classes="Label">Nombre de question(s) :</TextBlock>
-                            <TextBlock Grid.Row="2" Grid.Column="1" Classes="Value PrimaryFont"
-                                       Text="{Binding QuestionCount}" />
+                                <TextBlock Grid.Row="1" Grid.Column="0" Classes="Label">Nom de la série :</TextBlock>
+                                <TextBlock Grid.Row="1" Grid.Column="1" Classes="Value" Text="{Binding SerieName}" />
 
-                            <TextBlock Grid.Row="4" Grid.Column="0" Classes="Label">Quotation :</TextBlock>
-                            <TextBlock Grid.Row="4" Grid.Column="1" Classes="Value PrimaryFont"
-                                       Text="{Binding Percentage, StringFormat={}{0:F2}%}" />
+                                <TextBlock Grid.Row="3" Grid.Column="0" Classes="Label">Nombre de bonne(s) réponse(s) :</TextBlock>
+                                <TextBlock Grid.Row="3" Grid.Column="1" Classes="Value PrimaryFont"
+                                           Text="{Binding CorrectAnswerCount}" />
 
-                            <TextBlock Grid.Row="5" Grid.Column="0" Classes="Label PrimaryFont">A été rejoué après une 1ère tentative :</TextBlock>
-                            <TextBlock Grid.Row="5" Grid.Column="1" Classes="Value PrimaryFont"
-                                       Text="{Binding IsAReplay}" />
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-    </ScrollViewer>
+                                <TextBlock Grid.Row="2" Grid.Column="0" Classes="Label">Nombre de question(s) :</TextBlock>
+                                <TextBlock Grid.Row="2" Grid.Column="1" Classes="Value PrimaryFont"
+                                           Text="{Binding QuestionCount}" />
+
+                                <TextBlock Grid.Row="4" Grid.Column="0" Classes="Label">Quotation :</TextBlock>
+                                <TextBlock Grid.Row="4" Grid.Column="1" Classes="Value PrimaryFont"
+                                           Text="{Binding Percentage, StringFormat={}{0:F2}%}" />
+
+                                <TextBlock Grid.Row="5" Grid.Column="0" Classes="Label PrimaryFont">A été rejoué après une 1ère tentative :</TextBlock>
+                                <TextBlock Grid.Row="5" Grid.Column="1" Classes="Value PrimaryFont"
+                                           Text="{Binding IsAReplay}" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
 </UserControl>

@@ -75,6 +75,9 @@ public partial class SerieViewModel : ViewModelBase {
 
     [RelayCommand]
     public void Play(SerieDetailViewModel serieDetailViewModel) {
+        if(serieDetailViewModel.WordCount == 0)
+            return;
+        
         RoutingService.GoSeriePlayCommand.Execute(serieDetailViewModel);
     }
 
